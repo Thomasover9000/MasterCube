@@ -1,0 +1,21 @@
+-----------------------------------------------
+--------Logfile / Protokoll des Projekts--------
+------------------------------------------------
+
+Beispieleintrag:
+****************
+Datum
+Name
+Veränderte/Hinzugefügte Files: 
+Tätigkeit 1; Tätigkeit 2; ...
+****************
+01.12.2019
+Isabella Reithner:
+Files: alles
+Erstellen der Automakeumgebung; Erstellen der Class Cube; Implementierung der notwendigen Drehungsfunktionen
+****************
+05.12.2019
+Isabella Reithner:
+Files: main.cpp, Cube.h, Cube.cpp
+Scramble Funktion 
+****************
