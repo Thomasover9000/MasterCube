@@ -17,5 +17,10 @@ Erstellen der Automakeumgebung; Erstellen der Class Cube; Implementierung der no
 05.12.2019
 Isabella Reithner:
 Files: main.cpp, Cube.h, Cube.cpp
-Scramble Funktion 
+Scramble Methode 
+****************
+07.12.2019
+Isabella Reithner:
+Files: main.cpp, Cube.h, Cube.cpp
+SplitQuestion Methode 
 ****************

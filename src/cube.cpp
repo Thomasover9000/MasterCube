@@ -560,3 +560,51 @@ void Cube::scramble()
 		}
 	}
 }
+
+//-----------------------------------------------//
+//---------------Question/Answer-----------------//
+//-----------------------------------------------//
+
+/*void Cube::mapColor()
+{
+	
+}
+*/
+void Cube::splitQuestion(string s, int n) //by Isabella Reithner
+{
+	int pos = 0; //Position
+	char color = ' '; //Farbe
+	int question[n]; //Farbe aus der Frage
+	int reference[n]; //Farbe im verdrehten (übergebenen) Würfel
+	string tmp; //temporärer Speichererort des gespaltenen Strings 
+	int cnt = 0; //counter
+	int it = 0; //Zähler für Iterationen (ebenfalls ein Counter)
+	
+	for(int j=0; j<n*3; j+=3){ //Spalten der Frage in Position und Farbe
+		for(int i=0; i<2; i++){
+			tmp[i] = s[i+j];
+		}
+		pos = stoi(tmp); //String to Int
+		color = s[j+2];
+		question[cnt] = (int)(color)-48; //ASCII-Zahl um 48 verschieben
+		
+		for(int a=0; a<6; a++){ //Durchgehen des übergebenen Würfels 
+			for(int b=0; b<3; b++){
+				for(int c=0; c<3; c++){
+					it++;
+					if(it == pos){ //Wenn die Position befunden wurde, Farbe in reference schreiben
+						reference[cnt] = this->_cube[a][b][c];
+						break; 
+					}
+				}
+			}
+		}
+		cnt++;
+	}
+	
+	for(int k=0; k<n; k++){
+		cout << reference[k] << " " << question[k] << endl;
+	}
+
+
+}

@@ -26,6 +26,8 @@ private:
 		{ { 5, 5, 5 }, { 5, 5, 5 }, { 5, 5, 5 } } }; //white side
 
 	string moves = "";
+	string question = "";
+	string answer = "";
 	
 public: 
 	Cube(){};
@@ -56,4 +58,8 @@ public:
 	void b();
 	void bi();
 //------------------------------------------//
+	
+	void splitQuestion(string s, int n); //Frage am Server spalten in Pos und Farbe
+
+	
 };
