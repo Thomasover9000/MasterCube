@@ -2763,7 +2763,7 @@ void/* MY NAME IS */ Cube::solveCube(){
 */
 vector< pair<int, pair<int, int> > > _ecken; //wird global als auflistung für alle zusammenhangenden Ecken benotigt
 
-void init_Ecken(){ //einmalige initialisierung aller zusammenhangenden Felder zu Ecken
+void Cube::init_Ecken(){ //einmalige initialisierung aller zusammenhangenden Felder zu Ecken
 	_ecken.push_back(make_pair(0, make_pair(9, 38)));
 	_ecken.push_back(make_pair(2, make_pair(29, 36)));
 	_ecken.push_back(make_pair(6, make_pair(11, 18)));
@@ -2857,7 +2857,7 @@ int Cube::middleIndexOf(int pos){ //holt sich die nummer des mittelfelds der Sei
 	if(pos>=45&&pos<=53)
 		return 49;
 }
-multimap <int,int> _kanten; //globale kanten
+multimap <int,int> _kanten; //wirken erst global wenn sie im  .h sind
 
 void Cube::init_Kanten(){ //multimap aller Kanten und deren Felder anlegen
 	_kanten.insert( pair <int,int> (1,37));
@@ -2933,8 +2933,10 @@ string Cube::splitQuestion(string s, int n) //by Isabella Reithner
 	//feedback wird in diesem abschnitt  nicht gebraucht
 	int qPos[n], qCol[n], gtPos[n], gtCol[n];
 
-	init_Kanten();//wir jedes mal beim Feedback request neu initialisiert->Performance?
+
 	init_Ecken();
+	init_Kanten();//wir jedes mal beim Feedback request neu initialisiert->Performance?
+	
 	int h=0;//ungut,, listen bzw vektoren wären besser
 
 	for(int j=0; j<n*3; j+=3){ //Spalten der Frage in Position und Farbe

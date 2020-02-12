@@ -151,8 +151,10 @@ public:
 	int middleIndexOf(int pos);
 int getAdjecentKante(int pos);
 void init_Kanten();
+void init_Ecken();
 int getColor(int pos);
-
+vector< pair<int, pair<int, int> > > _ecken;
+multimap <int,int> _kanten;
 
 };
 //-----------------------------------------------//
