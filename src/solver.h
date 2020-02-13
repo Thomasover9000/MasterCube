@@ -20,8 +20,7 @@ class MastermindSolver
 	// functions to use
 	Cube tracking;
 	list <int> postions_to_ask;
-	list <string> CHAOS_questions_asked; //unsortiert
-	list <string> ORDER_questions_asked; // sortiert
+	
 	MastermindSolver(){
 		cout << "solver is starting" << endl;
 		generate_positions_to_ask();
@@ -48,9 +47,18 @@ void generate_tracking_cube();
 // possition list;
 void generate_positions_to_ask();
 
+
+// questions asked list
+list <string> CHAOS_questions_asked; //unsortiert
+list <string> ORDER_questions_asked; // sortiert
+
 //feedback list
 list <string> Feedback_chaos;
 void addFeedback(string);
 bool correct_question(string);
+bool compare_questions(string);
+
+int vereinfachen_feedback(string);
+
 
 };

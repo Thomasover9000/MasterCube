@@ -29,25 +29,20 @@ int main (int argc, char* argv[]) {
 	Debugger.setdebug(1);
 	Debugger.printf("MasterCube is starting");
 
-    int length_of_question = rand() % 51 +2;
-	//length_of_question = 41;
-	Debugger.printf("currently n is random");
-	Debugger.printf(length_of_question);
+    
 	//Solving starts here
 	// first we generate the question
 	// then we get the answer
 	// then we question again
 	// if all correct go to next question
-	MastermindSolver clever;
-	clever.set_n((length_of_question));
+	
 	
 	
 	
 	int counter_questions = 0;
-	int wie_gut = 1;
+	
 	//cout << length_of_question << endl;
-	Cube scrambled;
-	scrambled.scramble(); // dh im moment haben sowohl Server als auch Client eine cube der gescrambeld ist, CLient wird den halt nicht verwenden.
+	
 	//scrambled.init_Kanten();
 	//scrambled.init_Ecken();
 	
@@ -56,7 +51,6 @@ int main (int argc, char* argv[]) {
 	while (1)
 	{  
 
-		wie_gut = 0;
 		counter_questions++;
 	
 	clever.generate_question();
@@ -83,26 +77,7 @@ int main (int argc, char* argv[]) {
 	//clever.Feedback_chaos.append(guete);
 	clever.addFeedback(guete);
 	
-	
-	
-			// da wir gegnwärtig sehr lange strings bekommen schauen wir uns nur die ersten 48 an.
-			int somethins_wrong = 0;
 			
-			// pack das in eine funktion
-			  for ( std::string::iterator it=guete.begin(); it!=guete.end(); ++it)
-			  {
-				  somethins_wrong++;
-					int current_grading = int(*it)-48;
-					//cout << current_grading<<endl;
-					if (current_grading== 2)
-					wie_gut += current_grading/2;
-					else
-						wie_gut += current_grading;
-					
-					if(somethins_wrong > 48)
-						break;
-				  
-			  }
 			  cout << "die frage" << ask_this_server << "hat das ergebnis" << guete << " wovon soviele richtig sind " << wie_gut << " dies ist die" << counter_questions << "frage" << endl;
     if (counter_questions > 1)
 		break;
@@ -155,8 +130,33 @@ int main (int argc, char* argv[]) {
 	  		bool solvingComplete;				/* determine if the cube is solved */
 	 
 	  		 //This is my loop for the client, it includes ending the communication if the cube is solved
-	  		//do  there is a do-while so the client can send the ending communication message to the server before the communication is quit
-	  		{
+	  		 //there is a do-while so the client can send the ending communication message to the server before the communication is quit
+
+
+
+
+
+	  		// here Client setup
+	  		MastermindSolver clever;
+	  		int length_of_question = rand() % 53;
+	  		length_of_question = 3;
+			clever.set_n((length_of_question));
+			//length_of_question = 9;
+			Debugger.printf("currently n is random");
+			Debugger.printf(length_of_question);
+
+
+
+
+
+
+
+
+
+
+
+
+	  		do{
 	  			/* Get solvedComplete message from terminal */
 	  			std::cout << "Please insert if solving is comleted (yes: 1; no: 0): ";
 	  			std::cin >> solvingComplete;
@@ -172,12 +172,7 @@ int main (int argc, char* argv[]) {
 	  				clever.generate_question();
 	  				string ask_this_server = *clever.CHAOS_questions_asked.begin();
 
-	  				int forfahren = 1;
-	  				while(forfahren == 1)
-	  					{
-
-
-	  					 std::cin  >>forfahren;}
+	  				
 
 
 
@@ -225,7 +220,7 @@ int main (int argc, char* argv[]) {
 	 
 	  			// Determine length of the message to be send
       			echoStringLen = strlen(clientMessage.c_str());
-	  			 std::cout << "echoStringLen: " << echoStringLen << std::endl;
+	  			// std::cout << "echoStringLen: " << echoStringLen << std::endl;
 	 
       			/* Send the string to the server */
       			if (send(sock, clientMessage.c_str(), echoStringLen, 0) != echoStringLen)
@@ -243,7 +238,10 @@ int main (int argc, char* argv[]) {
       			// std::cout << "echoBuffer: " << echoBuffer << "." << std::endl;
 	  			// do something with the message recieved from the server
 	  			std::cout << "serverMessage: " << serverMessage << "." << std::endl;
+	  			
 
+	  			clever.addFeedback(serverMessage);
+ 
 
 	  			// HIER FEEDBACK AUSWERTEN //
 
@@ -295,11 +293,20 @@ int main (int argc, char* argv[]) {
 	  		char clientMessageBuffer[RCVBUFSIZE];        /* Buffer for message string from client*/
       		int recvMsgSize;                    /* Size of received message */
 	  		unsigned int stringLen;      /* Length of string to echo */
-	  		 int n;
+	  		 int our_generated_n;
 	 
+
+
+	  		 /// Here Server setup
+	  		Cube scrambled;
+			scrambled.scramble(); // dh im moment haben sowohl Server als auch Client eine cube der gescrambeld ist, CLient wird den halt nicht verwenden.
+
+
+
+
 	  		/* This is my loop for the server, it includes ending the communication if the cube is solved */
-	  		do
-	  		{
+	  		
+	  		do{
 	 
       			/* Receive message from client */
       			if ((recvMsgSize = recv(sock, clientMessageBuffer, RCVBUFSIZE, 0)) < 0)
@@ -307,7 +314,7 @@ int main (int argc, char* argv[]) {
 	 
 	  			// debug
 	  			// std::cout << "recvMsgSize: " << recvMsgSize << "." << std::endl;
-	  			 n = recvMsgSize/3; // n aus der Anzahl der erhaltenen Characters berechnen
+	  			 our_generated_n = recvMsgSize/3; // n aus der Anzahl der erhaltenen Characters berechnen
 	 
 	  			clientMessage = clientMessageBuffer;
 	  			clientMessage = clientMessage.substr(0,recvMsgSize); /* Cut so only the chars that were sent in this loop are in clientMessage*/
@@ -322,13 +329,31 @@ int main (int argc, char* argv[]) {
 	  			if(clientMessage.compare("fin") != 0)
 	  			{
 	  				 //Get the message that should be send to the client
-	  				std::cout << "Please insert server message: ";
+	  				//std::cout << "Please insert server message: ";
 	  				//std::cin >> serverMessage;
 
 	  				// generate Feedback OR Drehungen des Würfels
-	  				scrambled.splitQuestion(clientMessage, length_of_question);
-	  				serverMessage = scrambled.feedback;
+	  				cout << clientMessage[0] <<endl;
 
+
+	  				/*if (isalpha((int)clientMessage[0])) // dann brauchen wir drehungen
+	  					{
+	  						//Cube drehen
+
+	  					// cube gelöst?
+	  					// if Drehungen =-> Würfel solved then, hurray
+
+
+	  					}
+	  				
+	  				else */
+	  				{
+
+	  					scrambled.splitQuestion(clientMessage, our_generated_n);
+	  					serverMessage = scrambled.feedback;
+
+	  					
+	  				}
 	  				
 
 
@@ -364,7 +389,7 @@ int main (int argc, char* argv[]) {
 
 
 
-	  				// if Drehungen =-> Würfel solved then, hurray
+	  				
 
 	  			}else
 	  			{
@@ -375,7 +400,7 @@ int main (int argc, char* argv[]) {
 	  			// std::cout << "The serverMessage is: " << serverMessage << std::endl;
 	 
 	  			stringLen = strlen(serverMessage.c_str()); /* get lenght of the message to be send */
-	  			 std::cout << "stringLen: " << stringLen << std::endl;
+	  			std::cout << "stringLen: " << stringLen << std::endl;
 	 
 	  			/* Send serverMessage to client */
 	  			if (send(sock, serverMessage.c_str(), stringLen, 0) != stringLen)
