@@ -3,6 +3,7 @@
 #include <list>
 #include "cube.h"
 #include <string>
+#include "debug.h"
 using namespace std;
 
 
@@ -22,10 +23,12 @@ class MastermindSolver
 	list <int> postions_to_ask;
 	
 	MastermindSolver(){
-		cout << "solver is starting" << endl;
+		cout << "solver is starting" <<endl;
 		generate_positions_to_ask();
 	};
 	~MastermindSolver() {};
+
+
 
 void generate_question();
 void set_n(int); 

@@ -45,7 +45,7 @@ int MastermindSolver::color_to_number(char color)
 		return 5;
 		
 	default:
-		//////cout << "you took a wrong turn" <<endl;
+		////////cout<< "you took a wrong turn" <<endl;
 		return -1;
 	}
 }        diese funktionen wurden in cube.h verschoben   */
@@ -82,9 +82,9 @@ void MastermindSolver::generate_positions_to_ask()
 		
 		/* 
 		Beagle.printCube();
-		std:://////cout << "postions_to_ask contains:";
+		std::////////cout<< "postions_to_ask contains:";
   for (std::list<int>::iterator it=postions_to_ask.begin(); it!=postions_to_ask.end(); ++it)
-    std:://////cout << ' ' << *it; 
+    std::////////cout<< ' ' << *it; 
  */
 		
 }
@@ -94,9 +94,9 @@ void _print_question(string a)
 {
 	for( int i = 0; i< a.size();i++)
 	{
-		//cout << a[i];
+		////cout<< a[i];
 		if ( i+1%3)
-			//cout <<endl;
+			////cout<<endl;
 
 
 	}
@@ -112,7 +112,7 @@ void MastermindSolver::generate_question()
 	
 	
 	
-	//////cout << n << endl;
+	////////cout<< n << endl;
 	string question;
 	int n_counter = 0;
 	// 1 get n possitions
@@ -125,13 +125,13 @@ void MastermindSolver::generate_question()
 	// get first number
 	// if lower than 10 add 0 then the number
 	// get current number
-		for (std::list<int>::iterator it=postions_to_ask.begin(); n_counter < n; ++it)
+		for (std::list<int>::iterator it=postions_to_ask.begin(); n_counter < n;n_counter++, ++it)
 		{
 			
 			// NUMMER FÜR FRAGE ANFAG
 			
 			//it* == number we need
-			////////cout << *it<<endl;
+			//////////cout<< *it<<endl;
 			if( *it< 10)
 			{
 				question.append("0");
@@ -145,14 +145,13 @@ void MastermindSolver::generate_question()
 			// NUMMER FÜR FRAGE ENDE
 			int get_color = rand() % 6;
 			question.append(to_string(get_color));
-			n_counter++;
+			
 			
 			char color = numbers_to_color(get_color);
 			
 			while(correct_question(question)) //funktion gibt true wenn die frage nicht stimmt
 			{
-				//cout << "mitten stimmen nicht";
-				//cout << question <<endl;
+				//cout << "die Frage ist irgendwie falsch"  <<endl;
 				get_color = rand() % 6;
 				question.pop_back();
 				question.append(to_string(get_color));      
@@ -171,10 +170,10 @@ void MastermindSolver::generate_question()
 		}
 		*/
   
-		////////cout << question;
+		//////////cout<< question;
 		// save question into unsorted question list.
 		CHAOS_questions_asked.push_front(question);
-		////////cout << *(CHAOS_questions_asked.begin());
+		//////////cout<< *(CHAOS_questions_asked.begin());
 		// save question into sorted question list. TO DO 
 		ORDER_questions_asked.push_front(question);
 		
@@ -198,29 +197,16 @@ void MastermindSolver::generate_question()
 
 bool MastermindSolver::correct_question(string a_question)
 {
-		// prüfen ob es mit einer anderen frage "zu" gleich ist
 
-	cout << "is question coorect?" <<endl;
-
-	if(!(compare_questions(a_question)))
+	// wenn sie gleich ist wie eine vorherige frage
+	if((compare_questions(a_question)))
 	{
-		cout << "hier wird geschaut ob eine frage genug unterschied zu einer vorherigen frage hat";
+		//cout<< "hier wird geschaut ob eine frage genug unterschied zu einer vorherigen frage hat";
+		//cout<< " das ergebnis war " << to_string(compare_questions(a_question)) <<endl;
 		return true;
 	}
-
-
-
-
-	//nur die erste position ist immer richtig
+	
 	int length = a_question.size();
-	if(length < 5)
-	{
-		// am anfang kann die frage nich falsch sein
-		return false;
-	}
-
-
-	////cout << "die Frage" << a_question <<endl;
 	int size_of_question = length/3;
 	int number[size_of_question];
 	int guess_color[size_of_question];
@@ -233,26 +219,24 @@ bool MastermindSolver::correct_question(string a_question)
 			
 	}
 
-
-	// wenn zwei mitten die selbe farbe haben nein
-
-
-	
+	// wenn zwei mitten die selbe farbe haben nein	
 	if(isMitte(number[size_of_question-1]))
 	{	
-		for( int i = 1; i < size_of_question-1; i++)
+		//cout<< number[size_of_question-1] << "Ist eine Mitte" <<endl;
+		for( int i = 0; i < size_of_question -1 ; i++)
 		{
+			//cout<< number[i] << "Ist eine Mitte" << isMitte(number[i])<<endl;
+
 			if(isMitte(number[i]) && guess_color[i] == guess_color[size_of_question-1])
 			{
-				cout << number[i] << " und "<< number[size_of_question-1] << "sind mitten" <<endl;
-				//cout << "leider auch dieselbe farbe" << guess_color[i]  << guess_color[size_of_question-1] <<endl;
+				//cout<< number[i] << " und "<< number[size_of_question-1] << "sind mitten" <<endl;
+				//cout<< "leider auch dieselbe farbe" << guess_color[i]  << guess_color[size_of_question-1] <<endl;
 				return true;
 			}
 			}
 	}	
 
 	
-				
 	// wenn eine ecke die selben farben hat nein
 	// und ecke darf auch nicht gleich sein wie eine andere ecke - simple knut
 
@@ -261,28 +245,23 @@ bool MastermindSolver::correct_question(string a_question)
 	{	
 
 		int a,b,c = number[size_of_question-1];
-		cout << c << "ist eine ecke" <<endl;
+		//cout<< c << "ist eine ecke" <<endl;
 		vector<pair<int,int>> adjEcken;
 		adjEcken=getAdjecentEcken(c);
 
 		a=adjEcken[0].first;
 		b=adjEcken[0].second;
-		cout << "Speicherzugriffsefhler hier" <<endl;
+		//cout<< "Speicherzugriffsefhler hier" <<endl;
 		// dazugehörige ecke finden
-		cout << "die Ecke" << c << "hat die dazugehörigen ecken" << a << "und" << b << "jetzt muss geschaut werden ob diese auch in der liste sind." << endl;
+		//cout<< "die Ecke" << c << "hat die dazugehörigen ecken" << a << "und" << b << "jetzt muss geschaut werden ob diese auch in der liste sind." << endl;
 	}
 	*/	
-
-
-
 
 
 // wenn eine seiete dieselbe farbe hat nein
 
 // wenn eine farbe schon zu oft vorkommt nein
 
-// wenn sie gleich ist wie eine vorherige frage
-	
 
 	return false;
 }
@@ -291,34 +270,14 @@ bool MastermindSolver::correct_question(string a_question)
 bool  MastermindSolver::compare_questions(string new_question)
 {
 	int simple_feedback = 0;
-
-	//cout << "Feedback_chaos.empty()" << Feedback_chaos.empty() <<endl;
 	int abc = 0;
+	list<string>::iterator old_question =ORDER_questions_asked.begin();
+	list<string>::iterator old_feedback = Feedback_chaos.begin();
 	while(!(Feedback_chaos.empty()))
 	{
-		list<string>::iterator old_question =ORDER_questions_asked.begin();
-		list<string>::iterator old_feedback = Feedback_chaos.begin();
 
-		cout << "iteratoren wurden erstellt"<<endl;
-		cout << *old_question <<endl;
-
-		cout << "VERSUS" <<endl;
-
-		cout << new_question <<endl;
-
-		// now we got the feedback and the question
-		// zuerst feedback vereinfachen
-
-		//cout << "somteimes it just works" <<endl;
-
-		string real_not_an_itterator = *old_feedback;
-
-		//cout << "somteimes it just works" <<endl;
-		//cout << "our string to be easier" << real_not_an_itterator <<endl;
-
+		//cout << "Caugt in a loop and your to blame" <<endl;
 		simple_feedback = vereinfachen_feedback((*old_feedback));
-
-		//cout << "feedback wurden vereinfacht"<<endl;
 
 		// from question get color and number
 		int length = new_question.size();
@@ -339,161 +298,86 @@ bool  MastermindSolver::compare_questions(string new_question)
 		int number_old[size_of_question_old];
 		int guess_color_old[size_of_question_old];
 
-
-		cout << *old_question <<endl;
-		cout << new_question <<endl;
-		cout <<" are they ever the same?" <<endl;
 		for(int i = 0; i < size_of_question_old; i++)
 		{
 				number_old[i] = 10 * (((*old_question)[i*3]-48));
 				number_old[i] += 1 * (((*old_question)[i*3+1])-48) ;
 				guess_color_old[i] = ((*old_question)[i*3+2])-48;
-				//cout <<guess_color_old[i] <<endl;
-				//cout << "unsere alten farben" <<endl;
+				////cout<<guess_color_old[i] <<endl;
+				////cout<< "unsere alten farben" <<endl;
 				
 		}
 
-		// look how many numbers are the same if there are any compare colors if they are the same get add to counter
-		// if counter over simple feedback => return false
 		int counter_of_same_nr_and_feedback = 0;
-		for(int i = 0; i < length; i++)
+		for(int i = 0; i < size_of_question; i++)
 
 		{
-
-			cout << "hier  liegt die CRUX" <<endl;
-
-			for(int e = 0; e < length_old; e++)
+			for(int e = 0; e < size_of_question_old; e++)
 			{
-															int current_old = guess_color_old[e] ;
-
-									cout << number[i] << "und " << number_old[e] <<"Nummern Prüfen" <<endl;
-						cout << current_old << "und " <<guess_color[i] <<"Farben prüfen" <<endl;
-
+				
 				// new_questions und old question nummern die gleich sind herraussuchen + deren farben
-				if(number[i]==number_old[e])
+				if(number[i]==number_old[e] && guess_color[i] == guess_color_old[e])
 				{
-											//cout <<current_old <<endl;
-											//cout << "FUCKER" <<endl;
-					//cout << number[i] << "und " << number_old[e] <<"sind dieselben" <<endl;
-					if(current_old == guess_color[i])
-					{
-						//cout << current_old << "und " <<guess_color[i] <<"sind dieselben" <<endl;
-						counter_of_same_nr_and_feedback;
-					}
+						//cout<< "angeblich gleiche stelle auch" << number[i] <<number_old[e] << "angeblich gleiche Farben " << guess_color[i] << guess_color_old[e] <<endl;
+						counter_of_same_nr_and_feedback++; // für jede Zahl und Farbe die Gleich haben wird dieser Counter erhöht
 				} 
-					counter_of_same_nr_and_feedback;
-				//cout << counter_of_same_nr_and_feedback << "soviele sind gleich" <<endl;
-				//cout << new_question << "neue frage" <<endl;
-
+			}
+			if(counter_of_same_nr_and_feedback > simple_feedback)
+			{
+				//cout<< simple_feedback <<"simple feedback"<<endl;
+				//cout<< counter_of_same_nr_and_feedback <<"counter_of_same_nr_and_feedback"<<endl;
+				cout << new_question << "war zu gleich mit " << *old_question << "simple feedback:" << simple_feedback << "und " << counter_of_same_nr_and_feedback <<"größer ist" <<endl; 
+				return true;
 			}
 
 		}
 
 
-		if(counter_of_same_nr_and_feedback > simple_feedback);
-			return false;
-		if(old_feedback == Feedback_chaos.end())
+		if(counter_of_same_nr_and_feedback > simple_feedback)
+		{
+			//cout<< simple_feedback <<"simple feedback"<<endl;
+			//cout<< counter_of_same_nr_and_feedback <<"counter_of_same_nr_and_feedback"<<endl;
+			cout << new_question << "war zu gleich mit " << *old_question <<endl;
+			return true;
+		}
+
+		//cout << "you give love a bad name" <<endl;
+
+	old_question++;
+	old_feedback++;
+
+	if(old_feedback == Feedback_chaos.end())
+		{
+			//cout << "Escaping the clutches" <<endl;
 			break;
-	++old_question;
-	++old_feedback;
+		}
+
 	}
-	return true;
+
+	//cout<< "We return false meaining the question is sufficenitely different from last questions" <<endl;
+	return false;
 }
 
 int MastermindSolver::vereinfachen_feedback(string one_feedback)
 {
 	int wie_gut = 0;
+	//cout << "Feedback to be analyesd" << one_feedback <<endl;
 
-	cout <<"Feedback wird vereinfacht" <<endl;
+	//cout<<"Feedback wird vereinfacht" <<endl;
 
 			  for ( std::string::iterator it=one_feedback.begin(); it!=one_feedback.end(); ++it)
 			  {
 					int current_grading = int(*it)-48;
-					//cout << current_grading<<endl;
+					////cout<< current_grading<<endl;
 					if (current_grading== 2)
 						wie_gut += current_grading/2;
 					else
 						wie_gut += current_grading;
 			  }
+			  //cout << "we got " << wie_gut <<endl;
 			  return wie_gut;
 }
 
-
-
-	
-
-
-
-/*void MastermindSolver::generate_question()
-{
-	//////cout << n <<endl;
-	
-	string question;
-	if(n < 7)
-	{
-		////////cout << "n is" << n <<endl;
-		int alpha = 0;
-	
-		// check list for what to ask; this list containts what we want to know. /possition wise
-		
-		// asume we want to ask middles ->  5+9*i
-		for (int i = 0;i < n; i++)
-		{
-			alpha = 5+9*i; //alpha is the position we want to ask
-		
-			question.append(to_string(alpha/10));
-			question.append(to_string(alpha%10));		
-			question.append("r");
-			////////cout <<question<<endl;
-		}
-		// now we got possitions
-		// next step which color
-		int pos_guesses = how_much_can_i_ask();
-		list <int*> start;
-		
-	
-		for(int i = 0;i < pos_guesses ; i++)
-		{
-			int number = i;
-			int e = 0;
-			// converting
-			int array_question[n];
-			do{
-				int to_save = number%6;
-				////////cout << " I want to save" << to_save << " in all_data" << e <<endl;
-				array_question[e] = to_save;
-				e++;
-			}while( number/=6);
-			start.push_back(array_question);
-		}
-		// start cointains all possible questions now //
-
-		  /* for (std::list<int*>::iterator it=start.begin(); it != start.end(); ++it)
-		  {
-			  for( int i = 0; i < n; i++)
-			  {
-				//////cout << ' ' << (*it)[0];
-			  }
-		  } 
-		 // simple question is 1 element.
-
-			for (int i = 0; i < n%3; i++)
-			{
-			int get_color = rand() % 6;
-			char color = numbers_to_color(get_color);
-			//////cout << get_color <<endl;
-			//char color = 'w';
-			question[2+i*3] = color;
-				}
-				//////cout << question <<endl;
-				}
-	else{
-		//////cout << " is bigger than 7"<<endl;
-	}
-	
-	
-}
-*/
 
 void MastermindSolver::testing()
 {
@@ -506,7 +390,7 @@ void MastermindSolver::testing()
 	set_n(pseudo_n); 
 	int pos_guesses = how_much_can_i_ask();
 	list <short int> start (pos_guesses*n);
-	//////cout << n << endl;
+	////////cout<< n << endl;
 	}
 	*/
 	
@@ -523,7 +407,7 @@ void MastermindSolver::testing()
 			
 		do{
 			int to_save = number%6;
-			////////cout << " I want to save" << to_save << " in all_data" << e <<endl;
+			//////////cout<< " I want to save" << to_save << " in all_data" << e <<endl;
 			all_data[i][e] = to_save;
 			e++;
 		}while( number/=6);
@@ -531,7 +415,7 @@ void MastermindSolver::testing()
 
 	Cube a;
 	a.generateMastermindAnswer(all_data[1],all_data[pos_guesses/2],n);
-	//////cout << a.feedback << endl;
+	////////cout<< a.feedback << endl;
 	string answer  = a.feedback;
 	
 	int tracker = 0;
@@ -540,15 +424,15 @@ void MastermindSolver::testing()
 		
 		a.generateMastermindAnswer(all_data[1],all_data[e],n);
 		string other_answer = a.feedback;
-		////////cout <<" " <<answer << other_answer <<endl;
+		//////////cout<<" " <<answer << other_answer <<endl;
 		if ( other_answer == answer)
 		{
-			//////cout << "this one cold work" <<endl;
+			////////cout<< "this one cold work" <<endl;
 			tracker++;
 			
 		}
 	}
-	//////cout << "so many are left" << tracker <<endl;
+	////////cout<< "so many are left" << tracker <<endl;
 		
 }
 
