@@ -1,10 +1,4 @@
-
 #include "cube.h"
-
-
-
-
-
 
 
 //-----------------------------------------------//
@@ -44,7 +38,6 @@ int color_to_number(char color)
 		return -1;
 	}
 }
-
 
 
 //-----------------------------------------------//
@@ -2350,6 +2343,592 @@ void Cube::twoEdgeRotate(int face, bool isNextTo)
 }
 
 //-----------------------------------------------//
+//----------------other Functions----------------//
+//-----------------------------------------------//
+
+void Cube::printCube()
+{
+	for (int i = 0; i < 1; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				cout << "    ";
+				for (int k = 0; k < 3; k++)
+				{
+					cout << _cube[i][j][k];
+				}
+				cout << endl;
+			}
+		}cout << endl;
+
+	for (int j = 0; j < 3; j++)
+		{
+			for (int i = 1; i < 5; i++)
+			{
+				for (int k = 0; k < 3; k++)
+				{
+					cout << _cube[i][j][k];
+				}
+				cout << " ";
+			}
+			cout << endl;
+		}
+		cout << endl;
+
+	for (int i = 5; i < 6; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				cout << "    ";
+				for (int k = 0; k < 3; k++)
+				{
+					cout << _cube[i][j][k];
+				}
+				cout << endl;
+			}
+		}cout << endl;
+}
+
+// void TempCube::printCube()
+// {
+// 	for (int i = 0; i < 1; i++)
+// 		{
+// 			for (int j = 0; j < 3; j++)
+// 			{
+// 				cout << "    ";
+// 				for (int k = 0; k < 3; k++)
+// 				{
+// 					cout << _tmp_cube[i][j][k];
+// 				}
+// 				cout << endl;
+// 			}
+// 		}cout << endl;
+
+// 	for (int j = 0; j < 3; j++)
+// 		{
+// 			for (int i = 1; i < 5; i++)
+// 			{
+// 				for (int k = 0; k < 3; k++)
+// 				{
+// 					cout << _tmp_cube[i][j][k];
+// 				}
+// 				cout << " ";
+// 			}
+// 			cout << endl;
+// 		}
+// 		cout << endl;
+
+// 	for (int i = 5; i < 6; i++)
+// 		{
+// 			for (int j = 0; j < 3; j++)
+// 			{
+// 				cout << "    ";
+// 				for (int k = 0; k < 3; k++)
+// 				{
+// 					cout << _tmp_cube[i][j][k];
+// 				}
+// 				cout << endl;
+// 			}
+// 		}cout << endl;
+// }
+
+
+void Cube::printMoves(){
+	cout << moves << endl;
+}
+
+void Cube::copyCube()
+{
+
+	for (int i = 0; i < 6; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			for (int k = 0; k < 3; k++)
+			{
+				_old[i][j][k] = _cube[i][j][k];
+
+			}
+		}
+	}
+}
+
+string Cube::last()
+{
+	if (moves.size() < 3)
+	{
+		return "";
+	}
+	int s = moves.size();
+	return moves.substr(s - 3, 3);
+}
+
+void Cube::removeLast()
+{
+	if (moves.size() < 3)
+	{
+		return;
+	}
+	int s = moves.size();
+	moves = moves.substr(0, s - 3);
+}
+
+void Cube::clearMoves()
+{
+	moves = "";
+}
+
+void Cube::scramble()
+{
+	srand(time(NULL));
+	for (int i = 0; i < 30; i++)
+	{
+		int num = rand() % 12 + 1;
+		switch (num)
+		{
+			case 1: r(); break;
+			case 2: ri(); break;
+			case 3: u(); break;
+			case 4: ui(); break;
+			case 5: f(); break;
+			case 6: fi(); break;
+			case 7: l(); break;
+			case 8: li(); break;
+			case 9: b(); break;
+			case 10: bi(); break;
+			case 11: d(); break;
+			case 12: di(); break;
+		}
+	}
+}
+
+void/* MY NAME IS */ Cube::solveCube(){
+	clearMoves();
+	cout << "scrambled:" << endl;
+	printCube();
+	solveTopCross();
+	cout << "Top Cross " << endl;
+	printMoves();
+
+	clearMoves();
+	printCube();
+	solveTopCorners();
+	cout << "Corners " << endl;
+	printMoves();
+
+	clearMoves();
+	printCube();
+	solveMiddleLayer();
+	cout << "Middle Layer " << endl;
+	printMoves();
+
+	clearMoves();
+	printCube();
+	solveBottomLayer();
+	cout << "Bottom Layer " << endl;
+	printMoves();
+	clearMoves();
+	printCube();
+
+}
+
+// cube questions //
+	int Cube::array_to_int(int i_1, int j_1, int k_1 )
+	{
+		int counter = 0;
+		for (int i = 0; i < 6 ;i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			for (int k = 0; k < 3; k++)
+			{
+				counter++;
+			if( i == i_1 && j_1 == j && k_1 == k)
+				{
+					return counter;
+				}
+			}
+		}
+
+	}
+		return 100000;
+	}
+
+	int Cube::int_to_array( int counter)
+	{
+		int question_array[55] = { 0,
+1,
+2,
+10,
+11,
+12,
+20,
+21,
+22,
+100,
+101,
+102,
+110,
+111,
+112,
+120,
+121,
+122,
+200,
+201,
+202,
+210,
+211,
+212,
+220,
+221,
+222,
+300,
+301,
+302,
+310,
+311,
+312,
+320,
+321,
+322,
+400,
+401,
+402,
+410,
+411,
+412,
+420,
+421,
+422,
+500,
+501,
+502,
+510,
+511,
+512,
+520,
+521,
+522};
+		return question_array[counter];
+	}
+// cube questions end //
+
+//-----------------------------------------------//
+//---------------Question/Answer-----------------//
+//-----------------------------------------------//
+
+/*void Cube::mapColor()
+{
+
+}
+*/
+vector< pair<int, pair<int, int> > > _ecken; //wird global als auflistung für alle zusammenhangenden Ecken benotigt
+
+void init_Ecken(){ //einmalige initialisierung aller zusammenhangenden Felder zu Ecken
+	_ecken.push_back(make_pair(0, make_pair(9, 38)));
+	_ecken.push_back(make_pair(2, make_pair(29, 36)));
+	_ecken.push_back(make_pair(6, make_pair(11, 18)));
+	_ecken.push_back(make_pair(8, make_pair(20, 27)));
+	_ecken.push_back(make_pair(45, make_pair(24, 17)));
+	_ecken.push_back(make_pair(47, make_pair(33, 26)));
+	_ecken.push_back(make_pair(51, make_pair(15, 44)));
+	_ecken.push_back(make_pair(53, make_pair(35, 42)));
+}
+
+vector<pair<int, int>> getAdjecentEcken(int pos){ //returniert einen vector mit den angrenzenden 2 Ecken des abgefragten Felds
+	vector<pair<int, int>> vec;
+
+	for (int i=0; i<_ecken.size(); i++){
+		//cout << _ecken[i].first << ", " << _ecken[i].second.first
+    		// << ", " << _ecken[i].second.second << endl;//kontrollausgabe
+		if(_ecken[i].first==pos) //Die anderen 2 Felder herrausfinden und zurückgeben
+		{
+			vec.push_back(make_pair(_ecken[i].second.first,_ecken[i].second.second));
+			//cout<< "\n--" << _ecken[i].second.first << " "<<_ecken[i].second.second<< endl;
+		}
+		else if(_ecken[i].second.first==pos)
+		{
+			vec.push_back(make_pair(_ecken[i].first,_ecken[i].second.second));
+			//cout<< "\n--" << _ecken[i].first << " "<<_ecken[i].second.second<< endl;
+		}
+		else if(_ecken[i].second.second==pos)
+		{
+			vec.push_back(make_pair(_ecken[i].first,_ecken[i].second.first));
+			//cout<< "\n--" << _ecken[i].first << " "<<_ecken[i].second.first<< endl;
+		}
+	}
+	return vec;
+}
+
+int Cube::getColor(int pos){//holt die eingetragene Farbe aus dem cube
+	int it=0;
+	for(int a=0; a<6; a++){
+		for(int b=0; b<3; b++){
+			for(int c=0; c<3; c++){
+				if(it == pos){
+						return this->_cube[a][b][c];
+				}
+				it++;
+			}
+		}
+	}
+}
+bool isEcke(int z){
+  int qPosE[]={0,2,6,8,9,11,15,17,18,20,24,26,27,29,33,35,36,38,42,44,45,47,51,53};
+  int *i = find(std::begin(qPosE), std::end(qPosE), z);
+  if (i != std::end(qPosE)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool isKante(int z){
+  int qPosK[]={1,3,5,7,10,12,14,16,19,21,23,25,28,30,32,34,27,39,41,43,46,48,50,52};
+  int *i = find(std::begin(qPosK), std::end(qPosK), z);
+  if (i != std::end(qPosK)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool isMitte(int z){
+  int qPosM[]={4,13,22,31,40,49};
+  int *i = find(std::begin(qPosM), std::end(qPosM), z);
+  if (i != std::end(qPosM)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+int Cube::middleIndexOf(int pos){ //holt sich die nummer des mittelfelds der Seite auf der die gefragt Position ist
+
+	if(pos>=0&&pos<=8)
+		return 4;
+	if(pos>8&&pos<=17)
+		return 13;
+	if(pos>18&&pos<=26)
+		return 22;
+	if(pos>27&&pos<=35)
+		return 31;
+	if(pos>=36&&pos<=44)
+		return 40;
+	if(pos>=45&&pos<=53)
+		return 49;
+}
+multimap <int,int> _kanten; //globale kanten
+
+void init_Kanten(){ //multimap aller Kanten und deren Felder anlegen
+	_kanten.insert( pair <int,int> (1,37));
+	_kanten.insert( pair <int,int> (3,10));
+	_kanten.insert( pair <int,int> (5,28));
+	_kanten.insert( pair <int,int> (7,19));
+	_kanten.insert( pair <int,int> (10,3));
+	_kanten.insert( pair <int,int> (12,41));
+	_kanten.insert( pair <int,int> (14,21));
+	_kanten.insert( pair <int,int> (16,48));
+	_kanten.insert( pair <int,int> (19,7));
+	_kanten.insert( pair <int,int> (21,14));
+	_kanten.insert( pair <int,int> (23,30));
+	_kanten.insert( pair <int,int> (25,46));
+	_kanten.insert( pair <int,int> (28,5));
+	_kanten.insert( pair <int,int> (30,23));
+	_kanten.insert( pair <int,int> (32,39));
+	_kanten.insert( pair <int,int> (34,50));
+	_kanten.insert( pair <int,int> (37,1));
+	_kanten.insert( pair <int,int> (39,32));
+	_kanten.insert( pair <int,int> (41,12));
+	_kanten.insert( pair <int,int> (43,52));
+	_kanten.insert( pair <int,int> (46,25));
+	_kanten.insert( pair <int,int> (48,16));
+	_kanten.insert( pair <int,int> (50,34));
+	_kanten.insert( pair <int,int> (52,43));
+}
+
+int Cube::getAdjecentKante(int pos){ //angrenzende Kante aus der Liste finden
+  return _kanten.find(pos)->second;
+}
+
+string randomizeFeedback(string s){ //randomisiert den von der generateMastermindAnswer Methode erstellten Feedbackstring
+	string randFeedback, feedback=s;
+  int num =0;
+  list<int> my_list;
+  list<int>::iterator it;
+
+  for(int i=0;i<feedback.length();i++){
+    randFeedback.append("2");
+  }
+
+  for(int i=0;i<feedback.length();i++){
+
+  while(find(my_list.begin(), my_list.end(), num)!=my_list.end()){
+    num = rand() % feedback.length();
+    //cout<<num;
+  }
+    my_list.push_back(num);
+    randFeedback[i]=feedback[num];
+  }
+  //cout<< "\n fkt: "<<randFeedback;
+  //cout << "feedback was" << s <<endl;
+
+  return randFeedback;
+}
+
+
+//bis hier Matthias 7.2.20
+
+string Cube::splitQuestion(string s, int n) //by Isabella Reithner
+{
+	//cout<< "--Entering splitQ"<<endl;
+	int pos = 0; //Position
+	char color = ' '; //Farbe
+	int question[n]; //Farbe aus der Frage
+	int groundTruth[n]; //Farbe im verdrehten (übergebenen) Würfel
+	string tmp; //temporärer Speichererort des gespaltenen Strings
+	int cnt = 0; //counter
+	int it = 0; //Zähler für Iterationen (ebenfalls ein Counter)
+	//von Matthias Anfang
+	int white=0; //Zähler für Richte Farbe am Falschen Platz
+	int black=0; //Zähler Richtige Farbe richtiger Platz
+	//feedback wird in diesem abschnitt  nicht gebraucht
+	int qPos[n], qCol[n], gtPos[n], gtCol[n];
+
+
+	init_Ecken();
+	init_Kanten();//wir jedes mal beim Feedback request neu initialisiert->Performance?
+	
+	int h=0;//ungut,, listen bzw vektoren wären besser
+
+	for(int j=0; j<n*3; j+=3){ //Spalten der Frage in Position und Farbe
+		it = 0;
+		int pos1=((int)(s[j])-'0');
+		int pos2=(int)(s[j+1])-'0';
+		pos = pos1*10+pos2;
+
+		color = s[j+2];
+		int farbe = (int)(color)-48;//ASCII-Zahl um 48 verschieben
+		qPos[h]=pos;
+		qCol[h]=farbe;
+
+//Durchgehen des übergebenen Würfels
+		for(int a=0; a<6; a++){ //Seite
+			for(int b=0; b<3; b++){ //Zeile
+				for(int c=0; c<3; c++){ //Spalten
+					if(it == pos){ //Wenn die Position befunden wurde, Farbe in reference schreiben
+						gtPos[h]=pos;
+						gtCol[h]=this->_cube[a][b][c];
+						//cout<<"it: " << h << ". gt an Position: "<< gtPos[h]<<" hat Farbe "<< gtCol[h] << ". Zu Farbe in Question: "<<qCol[h] <<endl;
+					}
+					it++;
+				}
+			}
+		}
+		cnt++;
+		h++;
+	}
+
+	return	this->generateMastermindAnswer(&qPos[0],&qCol[0],n);
+
+}
+
+string Cube::generateMastermindAnswer(int* qPos, int *qCol, int n ){
+	string randFeedback;
+	feedback = {}; //here important sonst wird der feedback string unenedlich lange
+	int num =0;
+	list<int> my_list;
+	list<int>::iterator it;
+	bool b;
+
+	for(int i=0;i<n;i++){
+		////cout<<"\nqPos["<<i<<"] "<< qPos[i];
+
+		if(isMitte(qPos[i]))
+		{////cout<<" m ";
+			if(qCol[i]==getColor(middleIndexOf(qPos[i])))//Wenn die Farbe aus der Frage vom aktuellen Mittelfeld gleich der Farbe an der seleben Stelle im scrambeld Cube
+			{
+				////cout<<"b";
+				feedback.append("1");
+			}else{
+				////cout << "x";
+				feedback.append("2");
+			}
+		}
+
+		if(isKante(qPos[i]))
+		{
+			////cout<<qPosK[i] << " " << middleIndexOf(qPosK[i]) << " " <<getColor(middleIndexOf(qPosK[i]))<<endl;
+			if(qCol[i]!=getColor(middleIndexOf(qPos[i]))){
+				//wenn die frabe der Kante nicht gleich der Farbe des mittelfelds der gleichen seite ist
+				////cout<<"x";
+				feedback.append("2");
+			}else{//wenn die farbe der Kante gleich der Farbe des mittlfeldes der gleichen seite ist
+				//wenn farbe des um die Ecke angrenzenden Felds gleich wie die Mitte dieser Seite ist
+				if(getAdjecentKante(qPos[i])==getColor(middleIndexOf(getAdjecentKante(qPos[i])))){
+				////cout<<"b";
+					feedback.append("1");
+				}
+				else
+				{
+					////cout<<"w";
+					feedback.append("0");
+				}
+			}
+		}
+
+		if(isEcke(qPos[i]))
+		{
+			////cout<<" e ";
+			int a,b;
+			vector<pair<int,int>> adjEcken;
+			adjEcken=getAdjecentEcken(qPos[i]);
+			a=adjEcken[0].first;
+			b=adjEcken[0].second;
+			////cout<< "--a: "<< a << " b: "<<b<<endl;
+			bool s1,s2,s3;
+
+			if(qCol[i]==getColor(middleIndexOf(qPos[i]))) s1=true; else s1=false;
+				////cout<<s1;
+			if(getColor(a)==getColor(middleIndexOf(a))) s2=true; else s2=false;
+				////cout<<s2;
+			if(getColor(b)==getColor(middleIndexOf(b))) s3=true; else s3=false;
+				////cout<<s3;
+
+			if(s1==true&&s2==true&&s3==true){
+					////cout<< ".b";
+				feedback.append("1");
+			}
+			else
+
+			/*if((s1==true&&s2==false&&s3==false)||(s1==false&&s2==true&&s3==false)||(s1==false&&s2==false&&s3==true))
+				{//cout<< ".w"; feedback.append(".w");}*/
+
+			if(s1==false&&s2==false&&s3==false){
+				////cout<< ".x";
+				feedback.append("2");
+			}else{
+				////cout<< ".w";
+				feedback.append("0");
+			}
+		}
+	}
+	//cout <<"\nFeedback: "<< feedback<<endl;
+	//randomize feedbackstring
+	string temp=randomizeFeedback(feedback);
+	//cout<<"Randomisiertes Feedback: "<<temp <<endl;
+	return temp;
+}
+
+
+//aus Moodle
+//Black (1) is returned (in an unsorted array) if a color is given at the correct position.
+//White (0) is returned (in an unsorted array) if a color is given at the correct side of the cube. 
+//Nothing (2) 
+
+
+//-----------------------------------------------//
 //---------------- Switch Edges -----------------//
 //-----------------------------------------------//
 
@@ -2463,603 +3042,408 @@ bool Cube::isCorrectEdge(int i, int j, int k){
 }
 
 void Cube::findSwitchableEdges(){
-	int cnt = 0; //if needed for IS EDGE
+	int cnt = 0;
+	int positions[4] = {-1};
+	int pos = 0;
+
 	for(int i=0; i<6; i++){
 		for(int j=0; j<3; j++){
 			for(int k=0; k<3; k++){
+				if(isKante(cnt) == 1 && _cube[i][j][k]!=-1 ){
+					cout << "got it at " << cnt << endl;
+					positions[pos] = cnt;
+					pos++;
+					//Do the moves
+				}
 				cnt ++;
-				//IS EDGE?? if yes - continue (kommt von Mathias)
-				if(_cube[i][j][k]!=-1 && isCorrectEdge(i,j,k)==1){
-					//Edge ist bekannt und nicht am richtigen Platz
-					//FIND PATH....
+			}
+		}
+	}
+}
+
+
+int Cube::findTopEdgePos(int side, int pos){
+	int s, p;
+	for (s = 1; s < 6; s++)
+	{
+		if (_cube[s][0][1] == 0)
+		{
+			p = 1;
+			return p;
+			break;
+		}
+		else if (_cube[s][1][2] == 0)
+		{
+			p = 2;
+			return p;
+			break;
+		}
+		else if (_cube[s][2][1] == 0)
+		{
+			p = 3;
+			return p;
+			break;
+		}
+		else if (_cube[s][1][0] == 0)
+		{
+			p = 4;
+			return p;
+			break;
+		}
+	}
+}
+int Cube::findTopEdgeSide(int side, int pos){
+	int s, p;
+	for (s = 1; s < 6; s++)
+	{
+		if (_cube[s][0][1] == 0)
+		{
+			p = 1;
+			return s;
+			break;
+		}
+		else if (_cube[s][1][2] == 0)
+		{
+			p = 2;
+			return s;
+			break;
+		}
+		else if (_cube[s][2][1] == 0)
+		{
+			p = 3;
+			return s;
+			break;
+		}
+		else if (_cube[s][1][0] == 0)
+		{
+			p = 4;
+			return s;
+			break;
+		}
+	}
+}
+
+void Cube::moveToTopCross(){
+	moveTopEdges();
+
+	for (int i = 1; i < 5; i++)
+	{
+		int side = 0; //side that the yellow sticker is on
+		int pos = 0; //position (1-4) of the yellow sticker
+		pos = findTopEdgePos(side, pos);
+		side = findTopEdgeSide(side, pos);
+		//cout << side << " " << pos << endl;
+		int numTurns = 0; //keeps track of how many times we turn the cube to put pieces on the bottom layer so we can undo the turns
+		if (side == 1)
+		{
+			while (_cube[5][1][0] == 0)
+			{
+				d();
+			}
+			while (_cube[0][1][0] == 0)
+			{
+				u();
+				numTurns++;
+			}
+			if (pos == 1)
+			{
+				l();
+				l();
+			}
+			else if (pos == 2)
+			{
+				l();
+			}
+			else if (pos == 4)
+			{
+				li();
+			}
+		}
+		else if (side == 2)
+		{
+			while (_cube[5][0][1] == 0)
+			{
+				d();
+			}
+			while (_cube[0][2][1] == 0)
+			{
+				u();
+				numTurns++;
+			}
+			if (pos == 1)
+			{
+				f();
+				f();
+			}
+			else if (pos == 2)
+			{
+				f();
+			}
+			else if (pos == 4)
+			{
+				fi();
+			}
+			di();
+		}
+		else if (side == 3)
+		{
+			while (_cube[5][1][2] == 0)
+			{
+				d();
+			}
+			while (_cube[0][1][2] == 0)
+			{
+				u();
+				numTurns++;
+			}
+			if (pos == 1)
+			{
+				r();
+				r();
+			}
+			else if (pos == 2)
+			{
+				r();
+			}
+			else if (pos == 4)
+			{
+				ri();
+			}
+			d();
+			d();
+		}
+		else if (side == 4)
+		{
+			while (_cube[5][2][1] == 0)
+			{
+				d();
+			}
+			while (_cube[0][0][1] == 0)
+			{
+				u();
+				numTurns++;
+			}
+			if (pos == 1)
+			{
+				b();
+				b();
+			}
+			else if (pos == 2)
+			{
+				b();
+			}
+			else if (pos == 4)
+			{
+				bi();
+			}
+			d();
+		}
+		else if (side == 5)
+		{
+			for (int j = 0; j < 4 - pos; j++)
+			{
+				d();
+			}
+		}
+
+		for (int j = 0; j < numTurns; j++)
+		{
+			ui();
+		}
+
+		if (side == 5) //algorithm for when the sticker is on the bottom
+		{
+			int color = i;
+			for (int a = 1; a < color; a++) //set-up so that the edge goes into the right spot
+			{
+				u();
+			}
+			l();
+			l();
+			for (int a = 1; a < color; a++) //undo set-up
+			{
+				ui();
+			}
+		}
+		else //algorithm for when th esticker is not on the bottom
+		{
+			int color = i;
+			if (color < 4) //set-up so that the sticker goes into the right spot
+			{
+				for (int a = 1; a < color + 1; a++)
+				{
+					u();
+				}
+			}
+			l();
+			bi();
+			li();
+			if (color < 4) //undo set-up
+			{
+				for (int a = 1; a < color + 1; a++)
+				{
+					ui();
 				}
 			}
 		}
 	}
+}
 
+void Cube::switchEdgesTopCross(){
+	/*
+		Überall wo "MASTERMIND" steht muss die Bedingung des
+		Masterminds eingesetzt werden
+	*/
+	int cnt = 0;
+	while(cnt < 12){
+		if(getColor(10) == getColor(13)){ // <- MASTERMIND
+			cout << "correct color 1"<< endl;
+			globalRotationL();
+			int i=1;
+			int cnt2=0;
+			bool feedback = getColor(19) != getColor(22) || getColor(28) != getColor(31) || getColor(37) != getColor(40); // <- MASTERMIND
+			//cout << "Feedback = " << feedback << endl;
+			while(feedback != 0){
+				switch(i){
+					case 0:
+						switchEdges(0,i);
+						//cout << "cnt2 " << cnt2 << endl;
+						//printCube();
+						i=1;
+						feedback = getColor(19) != getColor(22) || getColor(28) != getColor(31) || getColor(37) != getColor(40);// <- MASTERMIND
+						cnt2++;
+						break;
+					case 1:
+						switchEdges(0,i);
+						//cout << "cnt2 " << cnt2 << endl;
+						//printCube();
+						i=0;
+						feedback = getColor(19) != getColor(22) || getColor(28) != getColor(31) || getColor(37) != getColor(40);// <- MASTERMIND
+						cnt2++;
+						break;
+				}
+			}
+			globalRotationR();
+			//printCube();
+			break;
+		}
+		else if(getColor(19) == getColor(22)){ // <- MASTERMIND
+			cout << "correct color 2"<< endl;
+			globalRotationR();
+			globalRotationR();
+			int i=1;
+			int cnt2=0;
+			bool feedback = getColor(10) != getColor(13) || getColor(28) != getColor(31) || getColor(37) != getColor(40);// <- MASTERMIND
+			//cout << "Feedback = " << feedback << endl;
+			while(feedback != 0){
+				switch(i){
+					case 0:
+						switchEdges(0,i);
+						//cout << "cnt2 " << cnt2 << endl;
+						//printCube();
+						i=1;
+						feedback = getColor(10) != getColor(13) || getColor(28) != getColor(31) || getColor(37) != getColor(40);// <- MASTERMIND
+						cnt2++;
+						break;
+					case 1:
+						switchEdges(0,i);
+						//cout << "cnt2 " << cnt2 << endl;
+						//printCube();
+						i=0;
+						feedback = getColor(10) != getColor(13) || getColor(28) != getColor(31) || getColor(37) != getColor(40);// <- MASTERMIND
+						cnt2++;
+						break;
+				}
+			}
+			globalRotationL();
+			globalRotationL();
+			//printCube();
+			break;
+		}
+		else if(getColor(28) == getColor(31)){ // <- MASTERMIND
+			cout << "correct color 3"<< endl;
+			globalRotationR();
+			int i=1;
+			int cnt2=0;
+			bool feedback = getColor(10) != getColor(13) || getColor(19) != getColor(22) || getColor(37) != getColor(40);// <- MASTERMIND
+			//cout << "Feedback = " << feedback << endl;
+			while(feedback != 0){
+				switch(i){
+					case 0:
+						switchEdges(0,i);
+						//cout << "cnt2 " << cnt2 << endl;
+						//printCube();
+						i=1;
+						feedback = getColor(10) != getColor(13) || getColor(19) != getColor(22) || getColor(37) != getColor(40);// <- MASTERMIND
+						cnt2++;
+						break;
+					case 1:
+						switchEdges(0,i);
+						//cout << "cnt2 " << cnt2 << endl;
+						//printCube();
+						i=0;
+						feedback = getColor(10) != getColor(13) || getColor(19) != getColor(22) || getColor(37) != getColor(40);// <- MASTERMIND
+						cnt2++;
+						break;
+				}
+			}
+			globalRotationL();
+			printCube();
+			break;
+		}
+		else if(getColor(37) == getColor(40)){ // <- MASTERMIND
+			cout << "correct color 4"<< endl;
+			int i=1;
+			int cnt2=0;
+			bool feedback = getColor(10) != getColor(13) || getColor(19) != getColor(22) || getColor(28) != getColor(31);// <- MASTERMIND
+			//cout << "Feedback = " << feedback << endl;
+			while(feedback != 0){
+				switch(i){
+					case 0:
+						switchEdges(0,i);
+						//cout << "cnt2 " << cnt2 << endl;
+						//printCube();
+						i=1;
+						feedback = getColor(10) != getColor(13) || getColor(19) != getColor(22) || getColor(28) != getColor(31);// <- MASTERMIND
+						cnt2++;
+						break;
+					case 1:
+						switchEdges(0,i);
+						//cout << "cnt2 " << cnt2 << endl;
+						//printCube();
+						i=0;
+						feedback = getColor(10) != getColor(13) || getColor(19) != getColor(22) || getColor(28) != getColor(31);// <- MASTERMIND
+						cnt2++;
+						break;
+				}
+			}
+			printCube();
+			break;
+		}
+		switchEdges(0, 0);
+		u();
+		cnt ++;
+		//cout << "TRY " << cnt << endl;
+		//printCube();
+	}
 }
 
 
 //-----------------------------------------------//
-//----------------other Functions----------------//
+//------------------Sonstiges--------------------//
 //-----------------------------------------------//
 
-void Cube::printCube()
-{
-	for (int i = 0; i < 1; i++)
-		{
-			for (int j = 0; j < 3; j++)
-			{
-				//cout << "    ";
-				for (int k = 0; k < 3; k++)
-				{
-					//cout << _cube[i][j][k];
+void Cube::writeCube(int position, int color){
+	int cnt = 0;
+	for(int a=0; a<6; a++){ //Seite
+		for(int b=0; b<3; b++){ //Zeile
+			for(int c=0; c<3; c++){ //Spalten
+				if(cnt == position){
+					_cube[a][b][c] = color;
 				}
-				//cout << endl;
-			}
-		}//cout << endl;
-
-	for (int j = 0; j < 3; j++)
-		{
-			for (int i = 1; i < 5; i++)
-			{
-				for (int k = 0; k < 3; k++)
-				{
-					//cout << _cube[i][j][k];
-				}
-				//cout << " ";
-			}
-			//cout << endl;
-		}
-		//cout << endl;
-
-	for (int i = 5; i < 6; i++)
-		{
-			for (int j = 0; j < 3; j++)
-			{
-				//cout << "    ";
-				for (int k = 0; k < 3; k++)
-				{
-					//cout << _cube[i][j][k];
-				}
-				//cout << endl;
-			}
-		}//cout << endl;
-}
-
-// void TempCube::printCube()
-// {
-// 	for (int i = 0; i < 1; i++)
-// 		{
-// 			for (int j = 0; j < 3; j++)
-// 			{
-// 				//cout << "    ";
-// 				for (int k = 0; k < 3; k++)
-// 				{
-// 					//cout << _tmp_cube[i][j][k];
-// 				}
-// 				//cout << endl;
-// 			}
-// 		}//cout << endl;
-
-// 	for (int j = 0; j < 3; j++)
-// 		{
-// 			for (int i = 1; i < 5; i++)
-// 			{
-// 				for (int k = 0; k < 3; k++)
-// 				{
-// 					//cout << _tmp_cube[i][j][k];
-// 				}
-// 				//cout << " ";
-// 			}
-// 			//cout << endl;
-// 		}
-// 		//cout << endl;
-
-// 	for (int i = 5; i < 6; i++)
-// 		{
-// 			for (int j = 0; j < 3; j++)
-// 			{
-// 				//cout << "    ";
-// 				for (int k = 0; k < 3; k++)
-// 				{
-// 					//cout << _tmp_cube[i][j][k];
-// 				}
-// 				//cout << endl;
-// 			}
-// 		}//cout << endl;
-// }
-
-
-void Cube::printMoves(){
-	//cout << moves << endl;
-}
-
-void Cube::copyCube()
-{
-
-	for (int i = 0; i < 6; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			for (int k = 0; k < 3; k++)
-			{
-				_old[i][j][k] = _cube[i][j][k];
-
+				cnt++;
+				//else break;
 			}
 		}
 	}
 }
-
-string Cube::last()
-{
-	if (moves.size() < 3)
-	{
-		return "";
-	}
-	int s = moves.size();
-	return moves.substr(s - 3, 3);
-}
-
-void Cube::removeLast()
-{
-	if (moves.size() < 3)
-	{
-		return;
-	}
-	int s = moves.size();
-	moves = moves.substr(0, s - 3);
-}
-
-void Cube::clearMoves()
-{
-	moves = "";
-}
-
-void Cube::scramble()
-{
-	srand(time(NULL));
-	for (int i = 0; i < 30; i++)
-	{
-		int num = rand() % 12 + 1;
-		switch (num)
-		{
-			case 1: r(); break;
-			case 2: ri(); break;
-			case 3: u(); break;
-			case 4: ui(); break;
-			case 5: f(); break;
-			case 6: fi(); break;
-			case 7: l(); break;
-			case 8: li(); break;
-			case 9: b(); break;
-			case 10: bi(); break;
-			case 11: d(); break;
-			case 12: di(); break;
-		}
-	}
-}
-
-void/* MY NAME IS */ Cube::solveCube(){
-	clearMoves();
-	//cout << "scrambled:" << endl;
-	printCube();
-	solveTopCross();
-	//cout << "Top Cross " << endl;
-	printMoves();
-
-	clearMoves();
-	printCube();
-	solveTopCorners();
-	//cout << "Corners " << endl;
-	printMoves();
-
-	clearMoves();
-	printCube();
-	solveMiddleLayer();
-	//cout << "Middle Layer " << endl;
-	printMoves();
-
-	clearMoves();
-	printCube();
-	solveBottomLayer();
-	//cout << "Bottom Layer " << endl;
-	printMoves();
-	clearMoves();
-	printCube();
-
-}
-
-// cube questions //
-	int Cube::array_to_int(int i_1, int j_1, int k_1 )
-	{
-		int counter = 0;
-		for (int i = 0; i < 6 ;i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			for (int k = 0; k < 3; k++)
-			{
-				counter++;
-			if( i == i_1 && j_1 == j && k_1 == k)
-				{
-					return counter;
-				}
-			}
-		}
-
-	}
-		return 100000;
-	}
-
-	int Cube::int_to_array( int counter)
-	{
-		int question_array[55] = { 0,
-1,
-2,
-10,
-11,
-12,
-20,
-21,
-22,
-100,
-101,
-102,
-110,
-111,
-112,
-120,
-121,
-122,
-200,
-201,
-202,
-210,
-211,
-212,
-220,
-221,
-222,
-300,
-301,
-302,
-310,
-311,
-312,
-320,
-321,
-322,
-400,
-401,
-402,
-410,
-411,
-412,
-420,
-421,
-422,
-500,
-501,
-502,
-510,
-511,
-512,
-520,
-521,
-522};
-		return question_array[counter];
-	}
-// cube questions end //
-
-//-----------------------------------------------//
-//---------------Question/Answer-----------------//
-//-----------------------------------------------//
-
-/*void Cube::mapColor()
-{
-
-}
-*/
-vector< pair<int, pair<int, int> > > _ecken; //wird global als auflistung für alle zusammenhangenden Ecken benotigt
-
-void Cube::init_Ecken(){ //einmalige initialisierung aller zusammenhangenden Felder zu Ecken
-	_ecken.push_back(make_pair(0, make_pair(9, 38)));
-	_ecken.push_back(make_pair(2, make_pair(29, 36)));
-	_ecken.push_back(make_pair(6, make_pair(11, 18)));
-	_ecken.push_back(make_pair(8, make_pair(20, 27)));
-	_ecken.push_back(make_pair(45, make_pair(24, 17)));
-	_ecken.push_back(make_pair(47, make_pair(33, 26)));
-	_ecken.push_back(make_pair(51, make_pair(15, 44)));
-	_ecken.push_back(make_pair(53, make_pair(35, 42)));
-}
-
-vector<pair<int, int>> getAdjecentEcken(int pos){ //returniert einen vector mit den angrenzenden 2 Ecken des abgefragten Felds
-	vector<pair<int, int>> vec;
-
-	for (int i=0; i<_ecken.size(); i++){
-		////cout << _ecken[i].first << ", " << _ecken[i].second.first
-    		// << ", " << _ecken[i].second.second << endl;//kontrollausgabe
-		if(_ecken[i].first==pos) //Die anderen 2 Felder herrausfinden und zurückgeben
-		{
-			vec.push_back(make_pair(_ecken[i].second.first,_ecken[i].second.second));
-			////cout<< "\n--" << _ecken[i].second.first << " "<<_ecken[i].second.second<< endl;
-		}
-		else if(_ecken[i].second.first==pos)
-		{
-			vec.push_back(make_pair(_ecken[i].first,_ecken[i].second.second));
-			////cout<< "\n--" << _ecken[i].first << " "<<_ecken[i].second.second<< endl;
-		}
-		else if(_ecken[i].second.second==pos)
-		{
-			vec.push_back(make_pair(_ecken[i].first,_ecken[i].second.first));
-			////cout<< "\n--" << _ecken[i].first << " "<<_ecken[i].second.first<< endl;
-		}
-	}
-	return vec;
-}
-
-int Cube::getColor(int pos){//holt die eingetragene Farbe aus dem cube
-	int it=0;
-	for(int a=0; a<6; a++){
-		for(int b=0; b<3; b++){
-			for(int c=0; c<3; c++){
-				if(it == pos){
-						return this->_cube[a][b][c];
-				}
-				it++;
-			}
-		}
-	}
-}
-bool isEcke(int z){
-  int qPosE[]={0,2,6,8,9,11,15,17,18,20,24,26,27,29,33,35,36,38,42,44,45,47,51,53};
-  int *i = find(std::begin(qPosE), std::end(qPosE), z);
-  if (i != std::end(qPosE)) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-bool isKante(int z){
-  int qPosK[]={1,3,5,7,10,12,14,16,19,21,23,25,28,30,32,34,27,39,41,43,46,48,50,52};
-  int *i = find(std::begin(qPosK), std::end(qPosK), z);
-  if (i != std::end(qPosK)) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-bool isMitte(int z){
-  int qPosM[]={4,13,22,31,40,49};
-  int *i = find(std::begin(qPosM), std::end(qPosM), z);
-  if (i != std::end(qPosM)) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-int Cube::middleIndexOf(int pos){ //holt sich die nummer des mittelfelds der Seite auf der die gefragt Position ist
-
-	if(pos>=0&&pos<=8)
-		return 4;
-	if(pos>8&&pos<=17)
-		return 13;
-	if(pos>18&&pos<=26)
-		return 22;
-	if(pos>27&&pos<=35)
-		return 31;
-	if(pos>=36&&pos<=44)
-		return 40;
-	if(pos>=45&&pos<=53)
-		return 49;
-}
-multimap <int,int> _kanten; //wirken erst global wenn sie im  .h sind
-
-void Cube::init_Kanten(){ //multimap aller Kanten und deren Felder anlegen
-	_kanten.insert( pair <int,int> (1,37));
-	_kanten.insert( pair <int,int> (3,10));
-	_kanten.insert( pair <int,int> (5,28));
-	_kanten.insert( pair <int,int> (7,19));
-	_kanten.insert( pair <int,int> (10,3));
-	_kanten.insert( pair <int,int> (12,41));
-	_kanten.insert( pair <int,int> (14,21));
-	_kanten.insert( pair <int,int> (16,48));
-	_kanten.insert( pair <int,int> (19,7));
-	_kanten.insert( pair <int,int> (21,14));
-	_kanten.insert( pair <int,int> (23,30));
-	_kanten.insert( pair <int,int> (25,46));
-	_kanten.insert( pair <int,int> (28,5));
-	_kanten.insert( pair <int,int> (30,23));
-	_kanten.insert( pair <int,int> (32,39));
-	_kanten.insert( pair <int,int> (34,50));
-	_kanten.insert( pair <int,int> (37,1));
-	_kanten.insert( pair <int,int> (39,32));
-	_kanten.insert( pair <int,int> (41,12));
-	_kanten.insert( pair <int,int> (43,52));
-	_kanten.insert( pair <int,int> (46,25));
-	_kanten.insert( pair <int,int> (48,16));
-	_kanten.insert( pair <int,int> (50,34));
-	_kanten.insert( pair <int,int> (52,43));
-}
-
-int Cube::getAdjecentKante(int pos){ //angrenzende Kante aus der Liste finden
-  return _kanten.find(pos)->second;
-}
-
-string randomizeFeedback(string s){ //randomisiert den von der generateMastermindAnswer Methode erstellten Feedbackstring
-	string randFeedback, feedback=s; //same wie feedback, wir müssen von 0 anfangen
-  int num =0;
-  list<int> my_list;
-  list<int>::iterator it;
-
-  for(int i=0;i<feedback.length();i++){
-    randFeedback.append("0");
-  }
-
-  for(int i=0;i<feedback.length();i++){
-
-  while(find(my_list.begin(), my_list.end(), num)!=my_list.end()){
-    num = rand() % feedback.length();
-    ////cout<<num;
-  }
-    my_list.push_back(num);
-    randFeedback[i]=feedback[num];
-  }
-  ////cout<< "\n fkt: "<<randFeedback;
-
-  return randFeedback;
-}
-
-
-//bis hier Matthias 7.2.20
-
-string Cube::splitQuestion(string s, int n) //by Isabella Reithner
-{
-	//cout<< "--Entering splitQ"<<endl;
-	int pos = 0; //Position
-	char color = ' '; //Farbe
-	int question[n]; //Farbe aus der Frage
-	int groundTruth[n]; //Farbe im verdrehten (übergebenen) Würfel
-	string tmp; //temporärer Speichererort des gespaltenen Strings
-	int cnt = 0; //counter
-	int it = 0; //Zähler für Iterationen (ebenfalls ein Counter)
-	//von Matthias Anfang
-	int white=0; //Zähler für Richte Farbe am Falschen Platz
-	int black=0; //Zähler Richtige Farbe richtiger Platz
-	//feedback wird in diesem abschnitt  nicht gebraucht
-	int qPos[n], qCol[n], gtPos[n], gtCol[n];
-
-
-	init_Ecken();
-	init_Kanten();//wir jedes mal beim Feedback request neu initialisiert->Performance?
-	
-	int h=0;//ungut,, listen bzw vektoren wären besser
-
-	for(int j=0; j<n*3; j+=3){ //Spalten der Frage in Position und Farbe
-		it = 0;
-		int pos1=((int)(s[j])-'0');
-		int pos2=(int)(s[j+1])-'0';
-		pos = pos1*10+pos2;
-
-		color = s[j+2];
-		int farbe = (int)(color)-48;//ASCII-Zahl um 48 verschieben
-		qPos[h]=pos;
-		qCol[h]=farbe;
-
-//Durchgehen des übergebenen Würfels
-		for(int a=0; a<6; a++){ //Seite
-			for(int b=0; b<3; b++){ //Zeile
-				for(int c=0; c<3; c++){ //Spalten
-					if(it == pos){ //Wenn die Position befunden wurde, Farbe in reference schreiben
-						gtPos[h]=pos;
-						gtCol[h]=this->_cube[a][b][c];
-						//cout<<"it: " << h << ". gt an Position: "<< gtPos[h]<<" hat Farbe "<< gtCol[h] << ". Zu Farbe in Question: "<<qCol[h] <<endl;
-					}
-					it++;
-				}
-			}
-		}
-		cnt++;
-		h++;
-	}
-
-	return	this->generateMastermindAnswer(&qPos[0],&qCol[0],n);
-
-}
-
-string Cube::generateMastermindAnswer(int* qPos, int *qCol, int n ){
-	string randFeedback;
-	feedback = {}; //here important sonst wird der feedback string unenedlich lange
-	int num =0;
-	list<int> my_list;
-	list<int>::iterator it;
-	bool b;
-
-	for(int i=0;i<n;i++){
-		////cout<<"\nqPos["<<i<<"] "<< qPos[i];
-
-		if(isMitte(qPos[i]))
-		{////cout<<" m ";
-			if(qCol[i]==getColor(middleIndexOf(qCol[i])))//Wenn die Farbe aus der Frage vom aktuellen Mittelfeld gleich der Farbe an der seleben Stelle im scrambeld Cube
-			{
-				////cout<<"b";
-				feedback.append("1");
-			}else{
-				////cout << "w";
-				feedback.append("0");
-			}
-		}
-
-		if(isKante(qPos[i]))
-		{
-			////cout<<qPosK[i] << " " << middleIndexOf(qPosK[i]) << " " <<getColor(middleIndexOf(qPosK[i]))<<endl;
-			if(qCol[i]!=getColor(middleIndexOf(qPos[i]))){
-				//wenn die frabe der Kante nicht gleich der Farbe des mittelfelds der gleichen seite ist
-				////cout<<"x";
-				feedback.append("0");
-			}else{//wenn die farbe der Kante gleich der Farbe des mittlfeldes der gleichen seite ist
-				//wenn farbe des um die Ecke angrenzenden Felds gleich wie die Mitte dieser Seite ist
-				if(getAdjecentKante(qPos[i])==getColor(middleIndexOf(getAdjecentKante(qPos[i])))){
-				////cout<<"b";
-					feedback.append("1");
-				}
-				else
-				{
-					////cout<<"w";
-					feedback.append("2");
-				}
-			}
-		}
-
-		if(isEcke(qPos[i]))
-		{
-			////cout<<" e ";
-			int a,b;
-			vector<pair<int,int>> adjEcken;
-			adjEcken=getAdjecentEcken(qPos[i]);
-			a=adjEcken[0].first;
-			b=adjEcken[0].second;
-			////cout<< "--a: "<< a << " b: "<<b<<endl;
-			bool s1,s2,s3;
-
-			if(qCol[i]==getColor(middleIndexOf(qPos[i]))) s1=true; else s1=false;
-				////cout<<s1;
-			if(getColor(a)==getColor(middleIndexOf(a))) s2=true; else s2=false;
-				////cout<<s2;
-			if(getColor(b)==getColor(middleIndexOf(b))) s3=true; else s3=false;
-				////cout<<s3;
-
-			if(s1==true&&s2==true&&s3==true){
-					////cout<< ".b";
-				feedback.append("1");
-			}
-			else
-
-			/*if((s1==true&&s2==false&&s3==false)||(s1==false&&s2==true&&s3==false)||(s1==false&&s2==false&&s3==true))
-				{//cout<< ".w"; feedback.append(".w");}*/
-
-			if(s1==false&&s2==false&&s3==false){
-				////cout<< ".x";
-				feedback.append("0");
-			}else{
-				////cout<< ".w";
-				feedback.append("2");
-			}
-		}
-	}
-	//cout <<"\nFeedback: "<< feedback<<endl;
-	//randomize feedbackstring
-	string temp=randomizeFeedback(feedback);
-	//cout<<"Randomisiertes Feedback: "<<temp <<endl;
-	return temp;
-}
-
-
-//aus Moodle
-//Black (1) is returned (in an unsorted array) if a color is given at the correct position.
-//White (0) is returned (in an unsorted array) if a color is given at the correct side of the cube. 
-//Nothing (2) 

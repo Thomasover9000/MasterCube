@@ -15,7 +15,6 @@
 
 using namespace std;
 
-
 class Cube
 {
 public:
@@ -131,9 +130,16 @@ public:
 	void globalRotationU(); //global Up
 
 	void solveCube();
+
 	void switchEdges(int top, bool direction);//destroys corners!!!!
+	void moveToTopCross();
+	int findTopEdgePos(int side, int pos);
+	int findTopEdgeSide(int side, int pos);
+	void switchEdgesTopCross();
+
 	void findSwitchableEdges();
-	bool isCorrectEdge(int i, int j, int k);
+	bool isCorrectEdge(int i, int j, int k);;
+//------------------------------------------//
 
 // cube questions //
 	int array_to_int(int, int, int);
@@ -145,17 +151,18 @@ public:
 	string answer = ""; // same as above
 	string splitQuestion(string s, int n); //Frage am Server spalten in Pos und Farbe
 	string generateMastermindAnswer(int *questions, int *reference, int n);
+
 	void writeMoves(string newMove){ //Schreibt Moves
 		moves = moves + newMove;
 	}
-	int middleIndexOf(int pos);
-int getAdjecentKante(int pos);
-void init_Kanten();
-void init_Ecken();
-int getColor(int pos);
-vector< pair<int, pair<int, int> > > _ecken;
-multimap <int,int> _kanten;
+	void writeCube(int position, int color);
 
+	int middleIndexOf(int pos);
+	int getAdjecentKante(int pos);
+	int getColor(int pos);
+	string getMoves(){
+		return this->moves;
+	};
 };
 //-----------------------------------------------//
 //---------------Allgemeine Funktionen---------------//
@@ -165,4 +172,6 @@ int color_to_number(char);
 bool isEcke(int ); //sind hier sonst kann ich sie nicht benutzen
 bool isKante(int );
 bool isMitte(int );
-vector<pair<int, int>> getAdjecentEcken(int);
+void init_Kanten();
+void init_Ecken();
+

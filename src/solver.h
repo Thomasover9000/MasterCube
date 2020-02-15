@@ -3,7 +3,6 @@
 #include <list>
 #include "cube.h"
 #include <string>
-#include "debug.h"
 using namespace std;
 
 
@@ -18,8 +17,7 @@ class MastermindSolver
 	int n;
 	
 	public:
-	// functions to use
-	Cube tracking;
+	// functions to us
 	list <int> postions_to_ask;
 	
 	MastermindSolver(){
@@ -42,8 +40,8 @@ string what_does_the_answer_mean(); //possible_corret -  answer //eliminate poss
 string generic_evolution_solver();
 string all_possible();
 
-/* char numbers_to_color(int);
-int color_to_number(char);  in cube.h verschoben*/
+/*char numbers_to_color(int);
+int color_to_number(char); look to the cube.h */
 
 //tracking cube
 void generate_tracking_cube();
@@ -61,7 +59,45 @@ void addFeedback(string);
 bool correct_question(string);
 bool compare_questions(string);
 
+
+
+
+};
 int vereinfachen_feedback(string);
+
+
+class Question_container
+{
+	public:
+		string contained_question;
+		string current_feedback;
+		int* colorfull_array;
+		int* positional_array;
+		float probability;
+
+
+Question_container(string contained_question, string current_feedback){
+
+	// from question get color and number
+		int length = contained_question.size();
+		int size_of_question = length/3;
+		int positional_array[size_of_question];
+		int colorfull_array[size_of_question];
+
+		for(int i = 0; i < size_of_question; i++)
+		{
+				positional_array[i] = 10 * ((contained_question[i*3]-48));
+				positional_array[i] += 1 * ((contained_question[i*3+1])-48) ;
+				colorfull_array[i] = (contained_question[i*3+2])-48;
+				
+		}
+		probability = double(vereinfachen_feedback(current_feedback))/size_of_question;
+	};
+	~Question_container() {};
+
+
+
+
 
 
 };

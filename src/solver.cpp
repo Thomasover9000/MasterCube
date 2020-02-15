@@ -5,53 +5,14 @@
 //---------- Mastermind Solver -------------//
 //------------------------------------------//
 // Aufbau:
-//0. number to color
 //1 tracking cube erstellen
 //2. liste für was fragen wir ab
 //3. genereieren einer fragen
 //4. feeback hinzufügen zu der feedback liste
 //5. ist eine frage so richtig?
+//6. best_guess(single)
 
 
-//0. number to color
-
-
-/* char MastermindSolver::numbers_to_color(int number)
-{
-	char color[] = "wgrboy"; //white green red blue orange yellow
-	return color[number];	
-}
-
-int MastermindSolver::color_to_number(char color)
-{
-	switch (color)
-	{
-	case 'w':
-		return 0;
-		
-	case 'g':
-		return 1;
-		
-	case 'r':
-		return 2;
-		
-	case 'b':
-		return 3;
-		
-	case 'o':
-		return 4;
-		
-	case 'y':
-		return 5;
-		
-	default:
-		////////cout<< "you took a wrong turn" <<endl;
-		return -1;
-	}
-}        diese funktionen wurden in cube.h verschoben   */
-
-//1 tracking cube erstellen
-//Copy cube(-1) to tracking...
 
 
 //2 liste der positionen
@@ -129,7 +90,6 @@ void MastermindSolver::generate_question()
 		{
 			
 			// NUMMER FÜR FRAGE ANFAG
-			
 			//it* == number we need
 			//////////cout<< *it<<endl;
 			if( *it< 10)
@@ -142,19 +102,96 @@ void MastermindSolver::generate_question()
 				question.append(to_string(*it));
 			}
 			
+
+			// wir wollen von der besten frage ausgehen
+			// beste frage zur gegenwärtigen feedback finden
+			// anhand von float von feedback/n
+			// und dann auswählen wenn
+			// wh= feedback/n > (rand% 100 + 1)/100 // muss größer sein da wir so bei einer wh von 1 immer auswählen.
+			// wenn das zutrifft dann die farbe nemen sonst nicht.
+
+			
+			/*
+			if(!Feedback_chaos.empty())
+			{
+				list<string>::iterator old_question =ORDER_questions_asked.begin();
+				list<string>::iterator old_feedback = Feedback_chaos.begin();
+				string best_question = *old_question;
+				float best_probability = 0;
+
+				while(old_feedback == Feedback_chaos.end())
+				{
+					Question_container current_question_for_probabily(*old_question,*old_feedback);
+					old_question++;
+					old_feedback++;
+					if(best_probability < current_question_for_probabily.probability)
+					{
+						best_probability = current_question_for_probabily.probability;
+					}
+					cout << current_question_for_probabily.positional_array[0] <<endl;
+
+
+					if(old_feedback == Feedback_chaos.end())
+					{
+						//cout << "Escaping the clutches" <<endl;
+						break;
+					}
+				}
+				}
+
+				*/
+
+
+
+
 			// NUMMER FÜR FRAGE ENDE
 			int get_color = rand() % 6;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			question.append(to_string(get_color));
 			
 			
 			char color = numbers_to_color(get_color);
-			
+			int counter_of_loops = 0;
 			while(correct_question(question)) //funktion gibt true wenn die frage nicht stimmt
 			{
 				//cout << "die Frage ist irgendwie falsch"  <<endl;
-				get_color = rand() % 6;
+				if(get_color ==5)
+					get_color = 0;
+				else
+				{
+					// so werden alle Farben durchprobiert und nicht pseudorandom
+					get_color++;
+				}
 				question.pop_back();
-				question.append(to_string(get_color));      
+				question.append(to_string(get_color));
+				if(counter_of_loops++ > 7)
+					break;
+
+				   
 			}
 			
 			//FARBE FÜR FRAGE ENDE
@@ -198,13 +235,7 @@ void MastermindSolver::generate_question()
 bool MastermindSolver::correct_question(string a_question)
 {
 
-	// wenn sie gleich ist wie eine vorherige frage
-	if((compare_questions(a_question)))
-	{
-		//cout<< "hier wird geschaut ob eine frage genug unterschied zu einer vorherigen frage hat";
-		//cout<< " das ergebnis war " << to_string(compare_questions(a_question)) <<endl;
-		return true;
-	}
+	
 	
 	int length = a_question.size();
 	int size_of_question = length/3;
@@ -261,6 +292,16 @@ bool MastermindSolver::correct_question(string a_question)
 // wenn eine seiete dieselbe farbe hat nein
 
 // wenn eine farbe schon zu oft vorkommt nein
+
+
+
+// wenn sie gleich ist wie eine vorherige frage
+	if((compare_questions(a_question)))
+	{
+		//cout<< "hier wird geschaut ob eine frage genug unterschied zu einer vorherigen frage hat";
+		//cout<< " das ergebnis war " << to_string(compare_questions(a_question)) <<endl;
+		return true;
+	}
 
 
 	return false;
@@ -358,7 +399,7 @@ bool  MastermindSolver::compare_questions(string new_question)
 	return false;
 }
 
-int MastermindSolver::vereinfachen_feedback(string one_feedback)
+int vereinfachen_feedback(string one_feedback)
 {
 	int wie_gut = 0;
 	//cout << "Feedback to be analyesd" << one_feedback <<endl;
@@ -369,14 +410,19 @@ int MastermindSolver::vereinfachen_feedback(string one_feedback)
 			  {
 					int current_grading = int(*it)-48;
 					////cout<< current_grading<<endl;
-					if (current_grading== 2)
-						wie_gut += current_grading/2;
-					else
-						wie_gut += current_grading;
+					if (current_grading!= 2)
+						wie_gut++;
 			  }
 			  //cout << "we got " << wie_gut <<endl;
 			  return wie_gut;
 }
+
+// 6best_guess
+
+
+
+
+
 
 
 void MastermindSolver::testing()
