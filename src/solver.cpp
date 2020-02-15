@@ -146,34 +146,9 @@ void MastermindSolver::generate_question()
 
 			// NUMMER FÜR FRAGE ENDE
 			int get_color = rand() % 6;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 			question.append(to_string(get_color));
 			
-			
+
 			char color = numbers_to_color(get_color);
 			int counter_of_loops = 0;
 			while(correct_question(question)) //funktion gibt true wenn die frage nicht stimmt
@@ -188,8 +163,15 @@ void MastermindSolver::generate_question()
 				}
 				question.pop_back();
 				question.append(to_string(get_color));
-				if(counter_of_loops++ > 7)
+				if(counter_of_loops++ > 6)
+				{
+					//im moment einfach von vorne anfangen
+					it=postions_to_ask.begin();
+					question.clear();
+					n_counter = 0;
+					// not the right way to do it
 					break;
+				}
 
 				   
 			}
@@ -291,7 +273,24 @@ bool MastermindSolver::correct_question(string a_question)
 
 // wenn eine seiete dieselbe farbe hat nein
 
-// wenn eine farbe schon zu oft vorkommt nein
+	// wenn eine farbe schon zu oft vorkommt nein
+	for(int current_color = 0; current_color < 6; current_color++)
+	{
+		int color_counter = 0;
+		for(int i = 0;i < size_of_question;i++)
+			{
+				if(guess_color[i]== current_color)
+				{
+					color_counter++;
+					if(color_counter>9)
+						return true;
+				}
+
+			}
+
+	}
+			
+
 
 
 
@@ -367,7 +366,14 @@ bool  MastermindSolver::compare_questions(string new_question)
 			{
 				//cout<< simple_feedback <<"simple feedback"<<endl;
 				//cout<< counter_of_same_nr_and_feedback <<"counter_of_same_nr_and_feedback"<<endl;
-				cout << new_question << "war zu gleich mit " << *old_question << "simple feedback:" << simple_feedback << "und " << counter_of_same_nr_and_feedback <<"größer ist" <<endl; 
+				
+
+				///
+				//INTERESSANT
+							//	cout << new_question << "war zu gleich mit " << *old_question << "simple feedback:" << simple_feedback << "und " << counter_of_same_nr_and_feedback <<"größer ist" <<endl; 
+								
+				////
+
 				return true;
 			}
 

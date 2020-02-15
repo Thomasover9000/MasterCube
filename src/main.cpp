@@ -21,8 +21,17 @@ int main (int argc, char* argv[]) {
 	srand(time(0));
 	
 	int counter_questions = 0;
-	
-	
+
+
+
+	/// Test ////
+	//Cube Testcube;
+	//string question_test = "494400313221135042504524480462412435393375322345300282230255212195142163124101054075033011534475512455444";
+	//Testcube.splitQuestion(question_test, question_test.length()/3);
+	//cout << question_test << "the question is " << question_test.length()/3 << "long" << endl;
+	//cout <<"the feedback :" << Testcube.feedback << "is " << Testcube.feedback.length() << "long" << endl;
+	// can entfernt werden
+
 	
 	// 15.12.2019 handling of calling parameters by Isabella
 	// 21.01.2020 handling og calling parameters modified by Elisabeth
@@ -67,7 +76,7 @@ int main (int argc, char* argv[]) {
 	  		// here Client setup
 	  		MastermindSolver clever;
 	  		int length_of_question = rand() % 53;
-	  		//length_of_question = 6;
+	  		length_of_question = 15;
 			clever.set_n((length_of_question));
 
 
@@ -167,6 +176,9 @@ int main (int argc, char* argv[]) {
 
 	  			clever.addFeedback(serverMessage);
 	  			int checker  = vereinfachen_feedback(serverMessage);
+
+	  			cout << checker <<"richtig" <<endl;
+	  			cout << length_of_question <<"so viele damits ganz richtig ist" <<endl;
 
 
 	  			if (checker == length_of_question)
@@ -288,7 +300,9 @@ int main (int argc, char* argv[]) {
 	  				{
 	  					cout << clientMessage <<endl;
 	  					scrambled.splitQuestion(clientMessage, our_generated_n);
+
 	  					serverMessage = scrambled.feedback;
+	  					cout << serverMessage.length() <<endl;
 
 	  					//cout << "40 ist" <<  << "und 49 ist "  << <<< endl;
 

@@ -2685,7 +2685,7 @@ bool isEcke(int z){
 }
 
 bool isKante(int z){
-  int qPosK[]={1,3,5,7,10,12,14,16,19,21,23,25,28,30,32,34,27,39,41,43,46,48,50,52};
+  int qPosK[]={1,3,5,7,10,12,14,16,19,21,23,25,28,30,32,34,37,39,41,43,46,48,50,52};
   int *i = find(std::begin(qPosK), std::end(qPosK), z);
   if (i != std::end(qPosK)) {
     return true;
@@ -2859,6 +2859,7 @@ string Cube::generateMastermindAnswer(int* qPos, int *qCol, int n ){
 
 		if(isKante(qPos[i]))
 		{
+			//cout<<" k ";
 			////cout<<qPosK[i] << " " << middleIndexOf(qPosK[i]) << " " <<getColor(middleIndexOf(qPosK[i]))<<endl;
 			if(qCol[i]!=getColor(middleIndexOf(qPos[i]))){
 				//wenn die frabe der Kante nicht gleich der Farbe des mittelfelds der gleichen seite ist
@@ -2880,7 +2881,7 @@ string Cube::generateMastermindAnswer(int* qPos, int *qCol, int n ){
 
 		if(isEcke(qPos[i]))
 		{
-			////cout<<" e ";
+			//cout<<" e ";
 			int a,b;
 			vector<pair<int,int>> adjEcken;
 			adjEcken=getAdjecentEcken(qPos[i]);
@@ -2900,22 +2901,29 @@ string Cube::generateMastermindAnswer(int* qPos, int *qCol, int n ){
 					////cout<< ".b";
 				feedback.append("1");
 			}
-			else
+			else //klammern sind wichtig
+			{
 
-			/*if((s1==true&&s2==false&&s3==false)||(s1==false&&s2==true&&s3==false)||(s1==false&&s2==false&&s3==true))
-				{//cout<< ".w"; feedback.append(".w");}*/
 
-			if(s1==false&&s2==false&&s3==false){
-				////cout<< ".x";
-				feedback.append("2");
-			}else{
-				////cout<< ".w";
-				feedback.append("0");
-			}
-		}
+					/*if((s1==true&&s2==false&&s3==false)||(s1==false&&s2==true&&s3==false)||(s1==false&&s2==false&&s3==true))
+									{//cout<< ".w"; feedback.append(".w");}*/
+
+								if(s1==false&&s2==false&&s3==false){
+									////cout<< ".x";
+									feedback.append("2");
+								}else{
+									////cout<< ".w";
+									feedback.append("0");
+								}
+
+
+			} //ENDE else if
+
+		} // ende ecken abfrage
 	}
 	//cout <<"\nFeedback: "<< feedback<<endl;
 	//randomize feedbackstring
+	//cout << "currently before randomis feedback is " <<  feedback.length() << "long" <<endl;
 	string temp=randomizeFeedback(feedback);
 	//cout<<"Randomisiertes Feedback: "<<temp <<endl;
 	return temp;
