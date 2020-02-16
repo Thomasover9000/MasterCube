@@ -2625,6 +2625,7 @@ void/* MY NAME IS */ Cube::solveCube(){
 */
 vector< pair<int, pair<int, int> > > _ecken; //wird global als auflistung für alle zusammenhangenden Ecken benotigt
 
+
 void init_Ecken(){ //einmalige initialisierung aller zusammenhangenden Felder zu Ecken
 	_ecken.push_back(make_pair(0, make_pair(9, 38)));
 	_ecken.push_back(make_pair(2, make_pair(29, 36)));
@@ -2748,7 +2749,7 @@ void init_Kanten(){ //multimap aller Kanten und deren Felder anlegen
 	_kanten.insert( pair <int,int> (52,43));
 }
 
-int Cube::getAdjecentKante(int pos){ //angrenzende Kante aus der Liste finden
+int getAdjecentKante(int pos){ //angrenzende Kante aus der Liste finden
   return _kanten.find(pos)->second;
 }
 

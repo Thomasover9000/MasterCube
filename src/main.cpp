@@ -76,7 +76,7 @@ int main (int argc, char* argv[]) {
 	  		// here Client setup
 	  		MastermindSolver clever;
 	  		int length_of_question = rand() % 53;
-	  		length_of_question = 15;
+	  		//length_of_question = 30;
 			clever.set_n((length_of_question));
 
 
@@ -143,7 +143,7 @@ int main (int argc, char* argv[]) {
 
 	  				clientMessage = ask_this_server;
 	  				//std::cin >> clientMessage;
-	  				 std::cout << "Your message is: " << clientMessage << std::endl;
+	  				std::cout << "Your message is: " << clientMessage << std::endl;
 	  			}else
 	  			{
 	  				clientMessage = "fin";  //this message tells the server that the communicaton can be quit
