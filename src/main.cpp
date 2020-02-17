@@ -76,8 +76,9 @@ int main (int argc, char* argv[]) {
 	  		// here Client setup
 	  		MastermindSolver clever;
 	  		int length_of_question = rand() % 53;
-	  		//length_of_question = 30;
+	  		length_of_question = 6;
 			clever.set_n((length_of_question));
+			Cube solved_cluber(0);
 
 
 
@@ -103,7 +104,8 @@ int main (int argc, char* argv[]) {
 
 	  				// HIER SERVER FRAGEN ERSTELLEN
 	  				// Das sind Drehungen und Fragen.
-	  				clever.generate_question();
+	  				clever.generate_question(); //COPY
+	  				//clever.generate_question(); // ORIGINALS
 	  				string ask_this_server = *clever.CHAOS_questions_asked.begin();
 
 	  				
@@ -175,6 +177,7 @@ int main (int argc, char* argv[]) {
 	  			
 
 	  			clever.addFeedback(serverMessage);
+	  			clever.update_list();
 	  			int checker  = vereinfachen_feedback(serverMessage);
 
 	  			cout << checker <<"richtig" <<endl;
@@ -187,39 +190,54 @@ int main (int argc, char* argv[]) {
 	  				cout << "Die fragelänge(n) war "<<length_of_question<<endl;
 	  				cout << "Die server nachrricht war" << serverMessage <<endl;
 	  				cout <<"We did it ";
-	  				solvingComplete = 1;
+	  				solvingComplete = 0;
+
+	  				// in Cube eintragen
+	  				//solved_cluber
+	  					cout << "die Richtige nachrricht" << clientMessage <<endl;
+	  					int length = clientMessage.size();
+						int size_of_question = length/3;
+						int number[size_of_question];
+						int guess_color[size_of_question];
+
+						for(int i = 0; i < size_of_question; i++)
+							{
+										number[i] = 10 * ((clientMessage[i*3]-48));
+										number[i] += 1 * ((clientMessage[i*3+1])-48) ;
+										guess_color[i] = (clientMessage[i*3+2])-48;
+										
+							}
+
+	  				for(int i = 0; i < length_of_question; i++)
+	  				{
+	  					cout << "an cube postion" << number[i] << "soll die Farbe" << guess_color[i] << endl;
+				  					int counter = 0;
+									for (int i = 0; i < 6 ;i++)
+									{
+									for (int j = 0; j < 3; j++)
+									{
+										for (int k = 0; k < 3; k++)
+										{
+											if( counter == number[i])
+											{
+												solved_cluber._cube[i][j][k] = guess_color[i];
+											}
+											else
+											{
+												counter++;
+											}
+										}
+									}
+
+									}
+
+
+	  				}
+	  				solved_cluber.printCube();
 	  			}
  
 
 	  			// HIER FEEDBACK AUSWERTEN //
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -246,6 +264,8 @@ int main (int argc, char* argv[]) {
 
 
 	  		 /// Here Server setup
+	  		 Cube gegwhegw(1);
+	  		 gegwhegw.printCube();
 	  		Cube scrambled(3);
 	  		scrambled.scramble();
 

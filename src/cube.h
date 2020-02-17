@@ -158,15 +158,16 @@ public:
 	void writeCube(int position, int color);
 
 	int middleIndexOf(int pos);
-	int getAdjecentKante(int pos);
 	int getColor(int pos);
 	string getMoves(){
 		return this->moves;
 	};
 };
 //-----------------------------------------------//
-//---------------Allgemeine Funktionen---------------//
+//---------------Globale Funktionen---------------//
 //-----------------------------------------------//
+
+
 char numbers_to_color(int);
 int color_to_number(char);
 bool isEcke(int ); //sind hier sonst kann ich sie nicht benutzen
@@ -174,4 +175,4 @@ bool isKante(int );
 bool isMitte(int );
 void init_Kanten();
 void init_Ecken();
-
+int getAdjecentKante(int pos);

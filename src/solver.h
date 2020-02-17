@@ -27,7 +27,7 @@ class MastermindSolver
 	~MastermindSolver() {};
 
 
-
+void generate_question1();
 void generate_question();
 void set_n(int); 
 void testing();
@@ -49,6 +49,10 @@ void generate_tracking_cube();
 void generate_positions_to_ask();
 
 
+int* question_numbers;
+int* question_colors;
+
+
 // questions asked list
 list <string> CHAOS_questions_asked; //unsortiert
 list <string> ORDER_questions_asked; // sortiert
@@ -59,11 +63,22 @@ void addFeedback(string);
 bool correct_question(string);
 bool compare_questions(string);
 
+void update_list();
+
 
 
 
 };
 int vereinfachen_feedback(string);
+
+
+
+
+//--------------------------------------------//
+//---------- Question Class -----------------//
+//------------------------------------------//
+
+
 
 
 class Question_container
