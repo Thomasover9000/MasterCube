@@ -76,7 +76,7 @@ int main (int argc, char* argv[]) {
 	  		// here Client setup
 	  		MastermindSolver clever;
 	  		int length_of_question = rand() % 53;
-	  		length_of_question = 6;
+	  		length_of_question = 2;
 			clever.set_n((length_of_question));
 			Cube solved_cluber(0);
 

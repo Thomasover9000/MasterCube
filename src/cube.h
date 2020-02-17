@@ -39,7 +39,7 @@ public:
 	string moves = "";
 
 
-public:
+
 	Cube(int n=1){
 		if(n==0){
 			for(int i=0;i<6;i++)
@@ -132,13 +132,25 @@ public:
 	void solveCube();
 
 	void switchEdges(int top, bool direction);//destroys corners!!!!
+
+	void findSwitchableEdges(); //not used
+	bool isCorrectEdge(int position); //not used?
+
+	//--------------------First Layer----------------------//
 	void moveToTopCross();
-	int findTopEdgePos(int side, int pos);
-	int findTopEdgeSide(int side, int pos);
 	void switchEdgesTopCross();
 
-	void findSwitchableEdges();
-	bool isCorrectEdge(int i, int j, int k);;
+	int findTopEdgePos(int side, int pos);
+	int findTopEdgeSide(int side, int pos);
+	//--------------------Second Layer----------------------//
+	void solveSecondLayer();
+	void MoveSecondLayer();
+	//--------------------Third Layer----------------------//
+	void moveToBottomCross();
+	void switchEdgesBottomCross();
+	
+	int findBottomEdgePos(int side, int pos);
+	int findBottomEdgeSide(int side, int pos);
 //------------------------------------------//
 
 // cube questions //
