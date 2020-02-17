@@ -174,6 +174,12 @@ public:
 	string getMoves(){
 		return this->moves;
 	};
+
+
+
+
+		void bayes_guesser(int *farbArray, int n);
+	int amountWandBofPosAndCol(int *pos,int *FarbArray,int n);
 };
 //-----------------------------------------------//
 //---------------Globale Funktionen---------------//

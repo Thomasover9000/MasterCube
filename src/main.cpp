@@ -75,10 +75,11 @@ int main (int argc, char* argv[]) {
 
 	  		// here Client setup
 	  		MastermindSolver clever;
-	  		int length_of_question = rand() % 53;
-	  		length_of_question = 2;
+	  		int length_of_question = rand() % 51 + 2;
+	  		//length_of_question = 2;
 			clever.set_n((length_of_question));
 			Cube solved_cluber(0);
+			Cube tracker(-1);
 
 
 
@@ -176,6 +177,22 @@ int main (int argc, char* argv[]) {
 	  			//std::cout << "serverMessage: " << serverMessage << "." << std::endl;
 	  			
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	  			clever.addFeedback(serverMessage);
 	  			clever.update_list();
 	  			int checker  = vereinfachen_feedback(serverMessage);
@@ -208,32 +225,36 @@ int main (int argc, char* argv[]) {
 										
 							}
 
-	  				for(int i = 0; i < length_of_question; i++)
-	  				{
-	  					cout << "an cube postion" << number[i] << "soll die Farbe" << guess_color[i] << endl;
-				  					int counter = 0;
-									for (int i = 0; i < 6 ;i++)
-									{
-									for (int j = 0; j < 3; j++)
-									{
-										for (int k = 0; k < 3; k++)
-										{
-											if( counter == number[i])
-											{
-												solved_cluber._cube[i][j][k] = guess_color[i];
-											}
-											else
-											{
-												counter++;
-											}
-										}
-									}
 
-									}
+
+					// beschreibung des Würfels so falsch - am besten checken mit cube(-1 oder so)
+	  				for(int b = 0; b < length_of_question; b++)
+	  				{
+	  					cout << "an cube postion" << number[b] << "soll die Farbe" << guess_color[b] << endl;
+						for (int i = 0; i < 6 ;i++)
+						{
+							for (int j = 0; j < 3; j++)
+							{
+								for (int k = 0; k < 3; k++)
+								{
+											//tracker._cube[i][j][k] this is the tracking cube
+											if( tracker._cube[i][j][k] == number[b])
+											{
+												solved_cluber._cube[i][j][k] = guess_color[b];
+												//solved_cluber.printCube();
+												//tracker.printCube();
+												//counter = 99; // so it doesnt get triggered again
+
+
+											}
+								}
+							}
+
+						}
 
 
 	  				}
-	  				solved_cluber.printCube();
+	  				//solved_cluber.printCube();
 	  			}
  
 
@@ -244,6 +265,31 @@ int main (int argc, char* argv[]) {
 
 
 	 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	  		}while(solvingComplete == 0);  //while the cube is not solved
 	 
       		close(sock); // this closes the Socket and ends the communication, it needs to be performed by both client and server => fin message to server
@@ -264,8 +310,6 @@ int main (int argc, char* argv[]) {
 
 
 	  		 /// Here Server setup
-	  		 Cube gegwhegw(1);
-	  		 gegwhegw.printCube();
 	  		Cube scrambled(3);
 	  		scrambled.scramble();
 
@@ -288,7 +332,7 @@ int main (int argc, char* argv[]) {
 	 
 	  			// debug
 	  			// std::cout << "recvMsgSize: " << recvMsgSize << "." << std::endl;
-	  			 our_generated_n = recvMsgSize/3; // n aus der Anzahl der erhaltenen Characters berechnen
+	  			our_generated_n = recvMsgSize/3; // n aus der Anzahl der erhaltenen Characters berechnen
 	 
 	  			clientMessage = clientMessageBuffer;
 	  			clientMessage = clientMessage.substr(0,recvMsgSize); /* Cut so only the chars that were sent in this loop are in clientMessage*/
@@ -319,10 +363,10 @@ int main (int argc, char* argv[]) {
 	  				else
 	  				{
 	  					cout << clientMessage <<endl;
-	  					scrambled.splitQuestion(clientMessage, our_generated_n);
-
-	  					serverMessage = scrambled.feedback;
-	  					cout << serverMessage.length() <<endl;
+	  					//scrambled.printCube();
+	  					serverMessage =  scrambled.splitQuestion(clientMessage, our_generated_n);
+	  					cout <<" the answer to the client is " << serverMessage.length()<< "long" <<endl;
+	  					cout << "this works?" << serverMessage <<endl;
 
 	  					//cout << "40 ist" <<  << "und 49 ist "  << <<< endl;
 
