@@ -76,7 +76,7 @@ int main (int argc, char* argv[]) {
 	  		// here Client setup
 	  		MastermindSolver clever;
 	  		int length_of_question = rand() % 51 + 2;
-	  		//length_of_question = 2;
+	  		length_of_question = 53;
 			clever.set_n((length_of_question));
 			Cube solved_cluber(0);
 			Cube tracker(-1);
@@ -241,7 +241,7 @@ int main (int argc, char* argv[]) {
 											if( tracker._cube[i][j][k] == number[b])
 											{
 												solved_cluber._cube[i][j][k] = guess_color[b];
-												//solved_cluber.printCube();
+												solved_cluber.printCube();
 												//tracker.printCube();
 												//counter = 99; // so it doesnt get triggered again
 

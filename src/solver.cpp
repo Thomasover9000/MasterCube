@@ -70,25 +70,15 @@ void _print_question(string a)
 //3 fragen erstellen  //copy 
 void MastermindSolver::generate_question()
 {
-	
-	
-	
-	////////////cout<< n << endl;
+
+	/// PREPARATIONS
+	int positions_array[n];
 	string question;
 	int n_counter = 0;
-	// 1 get n possitions
-	// 2 get random colors
-	// 3 fill string with those
-	// 4 posssible correct string if not differnece.
-	
-	//1 //
-	// generate_positions_to_ask
-	// get first number
-	// if lower than 10 add 0 then the number
-	// get current number
+	n_counter = 0;
+	int counter_of_loops = 0;
 
-	//prints out the positions we want to get
-	int positions_array[n];
+
 	for (std::list<int>::iterator it=postions_to_ask.begin(); n_counter < n;n_counter++,++it)
 	{
 		positions_array[n_counter] = *it;
@@ -107,13 +97,14 @@ void MastermindSolver::generate_question()
 				pseudo_question.append(to_string(*it));
 			}
 
+		/*
+
 		//Apending Color and trying them
-			/*
 		for(int i = 0; i < 6; i++)
 		{
 			pseudo_question.append(to_string(i));
 			if(correct_question(question))
-				cout << "question: " << pseudo_question << "does not work" <<endl;
+				//cout << "question: " << pseudo_question << "does not work" <<endl;
 			else
 			{
 				//cout << "question: " << pseudo_question << "does work" <<endl;
@@ -121,15 +112,13 @@ void MastermindSolver::generate_question()
 			pseudo_question.pop_back();
 
 		}
-
-		*/
+		*/		
 	}
-
-
-
-
+	
+	
+	
+	////////////cout<< n << endl;
 	n_counter = 0;
-	int counter_of_loops = 0;
 	for (std::list<int>::iterator it=postions_to_ask.begin(); n_counter < n;n_counter++)
 	{
 			
@@ -167,7 +156,7 @@ void MastermindSolver::generate_question()
 			if(!Feedback_chaos.empty()) // nur möglich wenn das feedback nicht leer ist
 			{
 				get_color = 0; //"best guess"
-				float best_wh = 0; // best wh
+				
 				////cout << "wir suchen die position " << positions_array[n_counter] << "in dem Feedback" <<endl;
 				list<string>::iterator old_question =ORDER_questions_asked.begin();
 				list<string>::iterator old_feedback = Feedback_chaos.begin();
@@ -199,6 +188,7 @@ void MastermindSolver::generate_question()
 								// jetzt müssen wir auch schauen ob das der Beste guess ist
 								if(best_wh <= easy_feedback/size_of_question )
 								{
+									//cout << best_wh << "best wh vs wh from antother queston" << easy_feedback/size_of_question <<endl;
 									// wenn zwei wh gleich sind sind die Fragen trotzdem unterschiedlich
 									if(best_wh==easy_feedback/size_of_question && rand()% 2)
 									{
@@ -229,15 +219,17 @@ void MastermindSolver::generate_question()
 				}while(old_question!=ORDER_questions_asked.end());
 			}
 
-			if(best_wh >= (rand() % 101 / 100.0)) // means if best_wh = 1 , we always choose it
+			if(best_wh >= (((rand() % 100) + 1) / 100.0)) // means if best_wh = 1 , we always choose it
 			{
 				//get color stays the same
 				question.append(to_string(get_color)); // ich könnte das jetzt ändern und diese zeile nach dem if und else schreiben
 				// aber so hat das if was zu tun.
-				////cout << "die beste Frage wurde gewählt" <<endl;
+				cout << "die beste Frage wurde gewählt" <<endl;
 			}
 			else
 			{
+				//cout << "die beste Frage wurde nicht gewählt" <<endl;
+				//cout << "obwohl beste wh " << best_wh <<" ist" <<endl;
 				int not_this_one = get_color;
 				get_color = rand() % 6; // wir sollten eine zalh raten die anders ist als get color schon ist
 				while(((get_color == not_this_one)))
@@ -245,18 +237,12 @@ void MastermindSolver::generate_question()
 					get_color = rand() % 6;
 				}
 				question.append(to_string(get_color));
-			}
-			////cout << "Wir haben uns für die Farbe " << get_color <<"entschieden" <<endl;
 
-			// NUMMER FÜR FRAGE ENDE
-			
-			
-
-			char color = numbers_to_color(get_color);
-			while(correct_question(question)) //funktion gibt true wenn die frage nicht stimmt
-			{
+				// ONLY CHECK IF CORRECT IF WE ARE NOT USING THE PREDEFINED QUESTION
+				while(correct_question(question)) //funktion gibt true wenn die frage nicht stimmt
+				{
 				//cout << "die Frage ist irgendwie falsch"  <<endl;
-				//cout << question << "und zwar an der " << n_counter << "-ten abfrage" <<endl;
+				cout << question << "und zwar an der " << n_counter << "-ten abfrage" <<endl;
 				if(get_color ==5)
 					get_color = 0;
 				else
@@ -268,14 +254,12 @@ void MastermindSolver::generate_question()
 				question.append(to_string(get_color));
 				if((counter_of_loops++ %7) == 0)
 				{
-					//cout <<"Crahses at the bottom" <<endl;
 					// doing it once to clear this postion
 					question.pop_back(); // should remove the last number
 					question.pop_back();
 					question.pop_back(); // and the color
 					n_counter--;
 					it--;
-					//cout <<"Crashes before the loop" <<endl;
 
 					// and as often as needed to go back to reedeem mistakes
 					for(int i = 0;i < counter_of_loops/7; i++)
@@ -286,14 +270,21 @@ void MastermindSolver::generate_question()
 						n_counter--;
 						it--;
 						if(question.empty())
-							break;
+							break; //BREAKING THE FOR LOOP
 
 					}
-					break;
+					break; //BREAKING THE WHILE LOOP
 				}
-
-				   
 			}
+			}
+			////cout << "Wir haben uns für die Farbe " << get_color <<"entschieden" <<endl;
+
+			// NUMMER FÜR FRAGE ENDE
+			
+			
+
+			//char color = numbers_to_color(get_color); LATER
+			
 			++it;
 
 
@@ -771,7 +762,7 @@ bool  MastermindSolver::compare_questions(string new_question)
 						counter_of_same_nr_and_feedback++; // für jede Zahl und Farbe die Gleich haben wird dieser Counter erhöht
 				} 
 			}
-			if(counter_of_same_nr_and_feedback > simple_feedback+simple_feedback/2) /// simple_feedback/2 entfernen wenn es besser geht
+			if(counter_of_same_nr_and_feedback > simple_feedback) /// simple_feedback/2 entfernen wenn es besser geht
 			{
 				//////cout<< simple_feedback <<"simple feedback"<<endl;
 				//////cout<< counter_of_same_nr_and_feedback <<"counter_of_same_nr_and_feedback"<<endl;
